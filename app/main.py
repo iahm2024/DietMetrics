@@ -3,6 +3,9 @@ import json
 import sys
 import time
 from pathlib import Path
+from PIL import Image
+import tempfile
+import os
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -216,15 +219,46 @@ with sekme_analiz:
     with sag:
         if aktif_fotograf and analiz_baslat:
             with st.spinner("Analiz ediliyor..."):
-                time.sleep(0.8)
+                from ultralytics import YOLO
+                import tempfile, os
+                from PIL import Image
+
+                # fotoğrafı geçici dosyaya kaydet
+                img = Image.open(aktif_fotograf).convert("RGB")
+                tmp = tempfile.NamedTemporaryFile(
+                    suffix=".jpg", delete=False)
+                img.save(tmp.name)
+
+                # YOLO çalıştır
+                model = YOLO("yolov8n.pt")
+                sonuclar = model(tmp.name, verbose=False)
+                os.unlink(tmp.name)
+
+                # tespitleri topla
+                tespitler = []
+                for s in sonuclar:
+                    for kutu in s.boxes:
+                        tespitler.append({
+                            "sinif": s.names[int(kutu.cls[0])],
+                            "confidence": float(kutu.conf[0])
+                        })
 
             tespit = secilen_yemek
+
             y = db["turkish_classes"][tespit]
             gram = y["avg_portion_g"] * porsiyon_carpani
             kalori = (y["calories_per_100g"] * gram) / 100
             protein = (y["protein_per_100g"] * gram) / 100
             yag = (y["fat_per_100g"] * gram) / 100
             karb = (y["carbs_per_100g"] * gram) / 100
+
+            # YOLO tespitlerini göster
+            if tespitler:
+                tespit_metni = ", ".join([
+                    f"{t['sinif']} (%{t['confidence']*100:.0f})"
+                    for t in tespitler[:5]
+                ])
+                st.info(f"🔍 Görüntüde tespit edilenler: {tespit_metni}")
 
             st.markdown(f"""
             <div class="tespit_kart">
