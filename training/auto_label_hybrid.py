@@ -213,10 +213,10 @@ def main():
     temizle()
     
     print("YOLOv8x (COCO pretrained) yukleniyor...")
-    yolo = YOLO("yolov8x.pt")  # Buyuk model, ilk seferde ~130 MB iner
+    yolo = YOLO("yolov8x.pt")
     
     print("SAM2 yukleniyor...")
-    sam = SAM("sam2_b.pt")  # Zaten indi
+    sam = SAM("sam2_b.pt")
     
     basarili = 0
     basarisiz = 0

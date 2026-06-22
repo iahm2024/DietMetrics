@@ -199,6 +199,7 @@ with sekme_analiz:
             secilen_yemek_label = st.selectbox(
                 "Yemek Seç",
                 options=list(yemek_secenekleri.keys()),
+                index=0,
             )
             secilen_yemek = yemek_secenekleri[secilen_yemek_label]
 

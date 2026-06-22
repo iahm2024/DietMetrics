@@ -1,0 +1,9 @@
+path: .
+train: images/train
+val: images/val
+nc: 4
+names:
+- baklava
+- kebap
+- lahmacun
+- pirinc_pilavi
