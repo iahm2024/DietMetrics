@@ -1,0 +1,147 @@
+{
+  "turkish_classes": {
+    "baklava": {
+      "display_name": "Baklava",
+      "calories_per_100g": 480,
+      "density_g_per_cm3": 0.85,
+      "shape_factor": 0.70,
+      "glycemic_index": 65,
+      "protein_per_100g": 5.0,
+      "fat_per_100g": 25.0,
+      "carbs_per_100g": 60.0,
+      "avg_portion_g": 80,
+      "ingredients": ["yufka", "ceviz", "tereyağı", "şeker", "limon"],
+      "meal_type": "tatlı",
+      "glycemic_warning": true
+    },
+    "lahmacun": {
+      "display_name": "Lahmacun",
+      "calories_per_100g": 250,
+      "density_g_per_cm3": 0.65,
+      "shape_factor": 0.40,
+      "glycemic_index": 70,
+      "protein_per_100g": 12.0,
+      "fat_per_100g": 8.0,
+      "carbs_per_100g": 35.0,
+      "avg_portion_g": 150,
+      "ingredients": ["kıyma", "domates", "soğan", "maydanoz", "hamur", "biber"],
+      "meal_type": "ana yemek",
+      "glycemic_warning": false
+    },
+    "pirinc_pilavi": {
+      "display_name": "Pirinç Pilavı",
+      "calories_per_100g": 150,
+      "density_g_per_cm3": 0.75,
+      "shape_factor": 0.60,
+      "glycemic_index": 73,
+      "protein_per_100g": 3.0,
+      "fat_per_100g": 3.5,
+      "carbs_per_100g": 28.0,
+      "avg_portion_g": 200,
+      "ingredients": ["pirinç", "tereyağı", "tuz", "su"],
+      "meal_type": "yan yemek",
+      "glycemic_warning": true
+    },
+    "kebap": {
+      "display_name": "Kebap",
+      "calories_per_100g": 290,
+      "density_g_per_cm3": 0.90,
+      "shape_factor": 0.55,
+      "glycemic_index": 0,
+      "protein_per_100g": 25.0,
+      "fat_per_100g": 20.0,
+      "carbs_per_100g": 0.0,
+      "avg_portion_g": 250,
+      "ingredients": ["kuzu eti", "dana eti", "soğan", "baharat", "tuz"],
+      "meal_type": "ana yemek",
+      "glycemic_warning": false
+    }
+  },
+  "coco_fallback_classes": {
+    "donut": {
+      "display_name": "Çörek / Donut",
+      "calories_per_100g": 250,
+      "avg_portion_g": 60
+    },
+    "cake": {
+      "display_name": "Pasta / Kek",
+      "calories_per_100g": 350,
+      "avg_portion_g": 80
+    },
+    "pizza": {
+      "display_name": "Pizza",
+      "calories_per_100g": 270,
+      "avg_portion_g": 120
+    },
+    "sandwich": {
+      "display_name": "Sandviç",
+      "calories_per_100g": 250,
+      "avg_portion_g": 200
+    },
+    "hot dog": {
+      "display_name": "Sosisli",
+      "calories_per_100g": 290,
+      "avg_portion_g": 100
+    },
+    "banana": {
+      "display_name": "Muz",
+      "calories_per_100g": 89,
+      "avg_portion_g": 120
+    },
+    "apple": {
+      "display_name": "Elma",
+      "calories_per_100g": 52,
+      "avg_portion_g": 180
+    },
+    "orange": {
+      "display_name": "Portakal",
+      "calories_per_100g": 47,
+      "avg_portion_g": 130
+    },
+    "broccoli": {
+      "display_name": "Brokoli",
+      "calories_per_100g": 34,
+      "avg_portion_g": 90
+    },
+    "carrot": {
+      "display_name": "Havuç",
+      "calories_per_100g": 41,
+      "avg_portion_g": 60
+    }
+  },
+  "reference_objects": {
+    "fork": {
+      "display_name": "Yemek Çatalı",
+      "length_cm": 20.0,
+      "min_aspect_ratio": 5.0
+    },
+    "spoon": {
+      "display_name": "Yemek Kaşığı",
+      "length_cm": 17.0,
+      "min_aspect_ratio": 3.0
+    },
+    "plate_default_diameter_cm": 26.0
+  },
+  "mlp_action_classes": {
+    "0": {
+      "label": "Normal Beslenme",
+      "advice": "Su iç ve dinlen.",
+      "color": "green"
+    },
+    "1": {
+      "label": "Glisemik Uyarı",
+      "advice": "Yemekten sonra 15 dakika yürüyüş yap.",
+      "color": "orange"
+    },
+    "2": {
+      "label": "Ağır Öğün",
+      "advice": "Akşam öğününü hafif tut.",
+      "color": "red"
+    },
+    "3": {
+      "label": "Cheat Meal",
+      "advice": "Bugün için tamam, yarın dengeli beslen.",
+      "color": "purple"
+    }
+  }
+}
