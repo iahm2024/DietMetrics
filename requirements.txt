@@ -20,5 +20,9 @@ datasets==3.6.0
 huggingface-hub==0.32.2
 transformers==4.51.3
 
+# RAG
+sentence-transformers>=2.2.0
+faiss-cpu>=1.7.0
+
 # görselleştirme
 matplotlib==3.10.3

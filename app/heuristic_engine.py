@@ -42,3 +42,41 @@ def gramaj_hesapla(yemek_adi, porsiyon_carpani, referans_tespit,
 
     # porsiyon çarpanını uygula
     return ort_gram * porsiyon_carpani
+
+def glisemik_yuk_hesapla(gi, karb_gram):
+    # WHO/FAO standardı: GL = (GI x karb) / 100
+    # GI 0 ise (et, balik vs) GL de 0
+    if gi == 0 or karb_gram == 0:
+        return 0.0
+    return (gi * karb_gram) / 100
+
+
+def glisemik_yuk_siniflandir(gl):
+    # WHO sınıflandırması
+    # GL <= 10  : düşük
+    # GL 11-19  : orta
+    # GL >= 20  : yüksek
+    if gl == 0:
+        return {
+            "etiket": "Yok",
+            "renk": "#888888",
+            "aciklama": "Bu yemekte kayda değer karbonhidrat yok"
+        }
+    elif gl <= 10:
+        return {
+            "etiket": "Düşük",
+            "renk": "#4ade80",
+            "aciklama": "Kan şekerini yavaş yükseltir"
+        }
+    elif gl <= 19:
+        return {
+            "etiket": "Orta",
+            "renk": "#D4700A",
+            "aciklama": "Dengeli, ölçülü tüket"
+        }
+    else:
+        return {
+            "etiket": "Yüksek",
+            "renk": "#ef4444",
+            "aciklama": "Kan şekerini hızlı yükseltir, yürüyüş öneririm"
+        }

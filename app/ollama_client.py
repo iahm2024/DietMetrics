@@ -48,7 +48,7 @@ def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None):
                 "prompt": tam_prompt,
                 "stream": False,
                 "options": {
-                    "temperature": 0.7,
+                    "temperature": 0.5,
                     "num_predict": 200,
                 }
             },
@@ -66,6 +66,73 @@ def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None):
         return "Cevap geç geldi, tekrar dene."
     except Exception as e:
         return f"Hata: {str(e)}"
+
+def tarif_uyarla(tarif, kullanici_metni, olmayan_malzemeler=None):
+    olmayan_metin = ""
+    if olmayan_malzemeler:
+        olmayan_metin = "\nKULLANICIDA OLMAYAN: " + ", ".join(olmayan_malzemeler)
+
+    sistem_prompt = """Sen bir mutfak şefisin. Tarifte BULUNAN ama kullanıcıda OLMAYAN malzemeler için alternatif öneriyorsun.
+KURALLAR (KATI):
+1. SADECE TEK CÜMLE yaz.
+2. Format: "X yerine Y kullanabilirsiniz."
+3. Sadece kullanıcıda OLMAYAN malzemeler için öneri yap.
+4. Olmayan malzeme bu tarifte yoksa, "Bu tarifte zaten X yok, olduğu gibi yapabilirsiniz." de.
+5. ASLA emoji, ASLA liste, ASLA iki cümle.
+6. Türkçe imla kurallarına uy.
+
+DOĞRU ÖRNEKLER:
+- "Sarımsak yerine yarım çay kaşığı zencefil tozu kullanabilirsiniz."
+- "Süt yerine badem sütü veya yulaf sütü kullanabilirsiniz."
+- "Bu tarifte zaten sarımsak yok, olduğu gibi yapabilirsiniz."
+
+YANLIŞ ÖRNEKLER (BÖYLE YAPMA):
+- "1 adet soğan yerine 1 adet soğan parçalı kullanabilirsiniz." (mantıksız)
+- "💡 X yerine Y." (emoji yok)
+- İki satırlı cevap (tek satır olmalı)"""
+
+    kullanici_prompt = f"""TARİF: {tarif['ad']}
+TARİFTEKİ MALZEMELER: {tarif['malzemeler_metin']}
+{olmayan_metin}
+
+Kullanıcıda olmayan malzeme için tarifte ne kullanılabilir? TEK CÜMLE yaz."""
+
+    import requests
+    try:
+        cevap = requests.post(
+            "http://localhost:11434/api/chat",
+            json={
+                "model": "qwen2.5:7b",
+                "messages": [
+                    {"role": "system", "content": sistem_prompt},
+                    {"role": "user", "content": kullanici_prompt}
+                ],
+                "stream": False,
+                "options": {
+                    "temperature": 0.2,
+                    "num_predict": 100,
+                    "top_p": 0.8,
+                }
+            },
+            timeout=45
+        )
+        if cevap.status_code == 200:
+            metin = cevap.json().get("message", {}).get("content", "").strip()
+            # Post-process: Birden fazla ampul, satır başı işaretleri vs temizle
+            import re
+            # Tum ampul emojilerini temizle (UI tarafinda kendi ekleyecegiz)
+            metin = re.sub(r"💡\s*", "", metin)
+            metin = re.sub(r"^[-*•]\s*", "", metin, flags=re.MULTILINE)
+            # Cok satirliysa ilk anlamli satiri al
+            satirlar = [s.strip() for s in metin.split("\n") if s.strip()]
+            if satirlar:
+                # Tum satirlari tek cumle olarak birlestir (en fazla 2)
+                metin = " ".join(satirlar[:2])
+            return metin.strip()
+    except Exception as e:
+        return f"(Uyarlama yapılamadı: {e})"
+
+    return None
 
 def ollama_calisiyor_mu():
     try:
