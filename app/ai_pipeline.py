@@ -1,17 +1,21 @@
 import json
 import tempfile
 import os
+import numpy as np
 from pathlib import Path
 from PIL import Image
-
+ 
 try:
     from ultralytics import YOLO
     YOLO_HAZIR = True
 except ImportError:
     YOLO_HAZIR = False
-
-# COCO'da yemek benzeri sınıflar ve food_db karşılıkları
-COCO_TÜRK_ESLESTIRME = {
+ 
+# Custom modelin tanidigi 4 sinif (egitim sirasinda ayni sirayla geldi)
+CUSTOM_SINIFLAR = ["baklava", "kebap", "lahmacun", "pirinc_pilavi"]
+ 
+# COCO'da yemek benzeri siniflar ve food_db karsiliklari (fallback)
+COCO_TURK_ESLESTIRME = {
     "cake": "baklava",
     "donut": "baklava",
     "sandwich": "kebap",
@@ -20,82 +24,154 @@ COCO_TÜRK_ESLESTIRME = {
     "bowl": "pirinc_pilavi",
     "rice": "pirinc_pilavi",
 }
-
+ 
 COCO_REFERANS = ["fork", "spoon", "knife", "bowl", "cup", "dining table"]
-
-COCO_YEMEK = [
-    "banana", "apple", "sandwich", "orange", "broccoli",
-    "carrot", "hot dog", "pizza", "donut", "cake", "bowl"
-]
-
-_model = None
-
-def model_yukle():
-    global _model
-    if _model is None and YOLO_HAZIR:
-        _model = YOLO("yolov8n.pt")
-    return _model
-
+ 
+# Confidence esik degerleri
+CUSTOM_CONF_ESIK = 0.40   # Custom model bu degerin altinda guvenmiyorsa COCO devreye girer
+COCO_CONF_ESIK = 0.35
+ 
+# Model singleton'lari
+_custom_model = None
+_coco_model = None
+ 
+def custom_model_yukle():
+    global _custom_model
+    if _custom_model is None and YOLO_HAZIR:
+        model_yolu = Path(__file__).parent.parent / "models" / "yolo11m_food.pt"
+        if model_yolu.exists():
+            _custom_model = YOLO(str(model_yolu))
+        else:
+            print(f"UYARI: Custom model bulunamadi: {model_yolu}")
+    return _custom_model
+ 
+def coco_model_yukle():
+    global _coco_model
+    if _coco_model is None and YOLO_HAZIR:
+        _coco_model = YOLO("yolov8n.pt")
+    return _coco_model
+ 
 def goruntu_analiz_et(fotograf_verisi):
-    model = model_yukle()
-
-    if model is None:
+    custom = custom_model_yukle()
+    coco = coco_model_yukle()
+    
+    if custom is None and coco is None:
         return {
             "basarili": False,
-            "hata": "Model yüklenemedi",
+            "hata": "Hicbir model yuklenemedi",
             "otomatik_tespit": None,
             "tespitler": [],
             "referans": None,
+            "kullanilan_model": None,
+            "maskeler": None,
         }
-
+    
     try:
+        # Fotoyu hazirla
         img = Image.open(fotograf_verisi).convert("RGB")
         tmp = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
         img.save(tmp.name)
         tmp.close()
-
-        sonuclar = model(tmp.name, verbose=False, conf=0.35)
-        os.unlink(tmp.name)
-
-        tespitler = []
-        for s in sonuclar:
-            for kutu in s.boxes:
-                sinif_adi = s.names[int(kutu.cls[0])]
-                confidence = float(kutu.conf[0])
-                tespitler.append({
-                    "sinif": sinif_adi,
-                    "confidence": confidence,
-                    "bbox": kutu.xyxy[0].tolist(),
-                })
-
-        tespitler.sort(key=lambda x: x["confidence"], reverse=True)
-
-        # referans nesne bul
-        referans = None
-        for t in tespitler:
-            if t["sinif"] in COCO_REFERANS:
-                referans = t
-                break
-
-        # otomatik yemek tespiti
-        otomatik_tespit = None
-        otomatik_confidence = 0
-
-        for t in tespitler:
-            if t["sinif"] in COCO_TÜRK_ESLESTIRME:
-                turkish_karsilik = COCO_TÜRK_ESLESTIRME[t["sinif"]]
-                if t["confidence"] > otomatik_confidence:
-                    otomatik_tespit = turkish_karsilik
-                    otomatik_confidence = t["confidence"]
-
-        return {
+        
+        sonuc = {
             "basarili": True,
-            "tespitler": tespitler,
-            "referans": referans,
-            "otomatik_tespit": otomatik_tespit,
-            "otomatik_confidence": otomatik_confidence,
+            "tespitler": [],
+            "referans": None,
+            "otomatik_tespit": None,
+            "otomatik_confidence": 0,
+            "kullanilan_model": None,
+            "maskeler": None,
+            "ham_genislik": img.width,
+            "ham_yukseklik": img.height,
         }
-
+        
+        # 1) Custom model - yemek tespiti icin
+        otomatik_bulundu = False
+        if custom is not None:
+            sonuclar = custom(tmp.name, verbose=False, conf=CUSTOM_CONF_ESIK)
+            
+            custom_tespitler = []
+            maskeler = []
+            
+            for s in sonuclar:
+                if s.boxes is None:
+                    continue
+                for i, kutu in enumerate(s.boxes):
+                    sinif_id = int(kutu.cls[0])
+                    sinif_adi = CUSTOM_SINIFLAR[sinif_id] if sinif_id < len(CUSTOM_SINIFLAR) else s.names[sinif_id]
+                    confidence = float(kutu.conf[0])
+                    
+                    tespit = {
+                        "sinif": sinif_adi,
+                        "confidence": confidence,
+                        "bbox": kutu.xyxy[0].tolist(),
+                        "kaynak": "custom",
+                    }
+                    custom_tespitler.append(tespit)
+                
+                # Segmentation maskeleri varsa al
+                if s.masks is not None:
+                    maskeler = s.masks.data.cpu().numpy() if hasattr(s.masks.data, 'cpu') else s.masks.data
+            
+            custom_tespitler.sort(key=lambda x: x["confidence"], reverse=True)
+            
+            # En yuksek conf'lu tespiti otomatik tespit yap
+            if custom_tespitler:
+                en_iyi = custom_tespitler[0]
+                sonuc["otomatik_tespit"] = en_iyi["sinif"]
+                sonuc["otomatik_confidence"] = en_iyi["confidence"]
+                sonuc["kullanilan_model"] = "custom"
+                sonuc["tespitler"] = custom_tespitler
+                if len(maskeler) > 0:
+                    sonuc["maskeler"] = maskeler
+                otomatik_bulundu = True
+        
+        # 2) COCO modeli - hem referans nesne hem fallback yemek tespiti
+        if coco is not None:
+            coco_sonuc = coco(tmp.name, verbose=False, conf=COCO_CONF_ESIK)
+            
+            coco_tespitler = []
+            for s in coco_sonuc:
+                if s.boxes is None:
+                    continue
+                for kutu in s.boxes:
+                    sinif_adi = s.names[int(kutu.cls[0])]
+                    confidence = float(kutu.conf[0])
+                    coco_tespitler.append({
+                        "sinif": sinif_adi,
+                        "confidence": confidence,
+                        "bbox": kutu.xyxy[0].tolist(),
+                        "kaynak": "coco",
+                    })
+            
+            coco_tespitler.sort(key=lambda x: x["confidence"], reverse=True)
+            
+            # Referans nesne (catal, kasik, tabak) hep COCO'dan gelir
+            for t in coco_tespitler:
+                if t["sinif"] in COCO_REFERANS:
+                    sonuc["referans"] = t
+                    break
+            
+            # Custom model bulamadiysa COCO fallback
+            if not otomatik_bulundu:
+                en_iyi_conf = 0
+                for t in coco_tespitler:
+                    if t["sinif"] in COCO_TURK_ESLESTIRME:
+                        turkish_karsilik = COCO_TURK_ESLESTIRME[t["sinif"]]
+                        if t["confidence"] > en_iyi_conf:
+                            sonuc["otomatik_tespit"] = turkish_karsilik
+                            sonuc["otomatik_confidence"] = t["confidence"]
+                            en_iyi_conf = t["confidence"]
+                
+                if sonuc["otomatik_tespit"]:
+                    sonuc["kullanilan_model"] = "coco_fallback"
+                
+                # COCO tespitlerini de ekle (UI gosterimi icin)
+                sonuc["tespitler"].extend(coco_tespitler)
+        
+        os.unlink(tmp.name)
+        return sonuc
+    
     except Exception as e:
         return {
             "basarili": False,
@@ -103,13 +179,30 @@ def goruntu_analiz_et(fotograf_verisi):
             "otomatik_tespit": None,
             "tespitler": [],
             "referans": None,
+            "kullanilan_model": None,
+            "maskeler": None,
         }
-
+ 
+def maske_pixel_alani(maskeler, sinif_index=None):
+    # Yemek maskelerinin toplam piksel alanini hesaplar
+    # Heuristic engine bunu kullanir (gramaj hesabi icin)
+    if maskeler is None or len(maskeler) == 0:
+        return 0
+    
+    if sinif_index is not None and sinif_index < len(maskeler):
+        return int(maskeler[sinif_index].sum())
+    
+    # Tum maskelerin toplami
+    toplam = 0
+    for m in maskeler:
+        toplam += int(m.sum())
+    return toplam
+ 
 def veritabani_yukle():
     db_yolu = Path(__file__).parent.parent / "data" / "food_db.json"
     with open(db_yolu, "r", encoding="utf-8") as f:
         return json.load(f)
-
+ 
 def kalori_hesapla(yemek_adi, gram, db):
     if yemek_adi in db["turkish_classes"]:
         y = db["turkish_classes"][yemek_adi]
