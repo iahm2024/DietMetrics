@@ -15,6 +15,7 @@ models/*
 
 # veri klasörleri
 data/turkishfoods25_subset/
+data/gunluk_log.json
 data/auto_labeled/
 data/nutrition5k_subset/
 *.parquet
@@ -39,3 +40,4 @@ wandb/
 # büyük medya dosyaları
 *.mp4
 *.mov
+*.jpg

@@ -148,6 +148,200 @@
     },
     "plate_default_diameter_cm": 26
   },
+  "ek_kalemler": {
+    "yesil_salata": {
+      "display_name": "Yeşil Salata",
+      "calories_per_100g": 25,
+      "protein_per_100g": 1.5,
+      "fat_per_100g": 0.2,
+      "carbs_per_100g": 5,
+      "kategori": "salata"
+    },
+    "coban_salatasi": {
+      "display_name": "Çoban Salatası",
+      "calories_per_100g": 35,
+      "protein_per_100g": 1.2,
+      "fat_per_100g": 2.0,
+      "carbs_per_100g": 4,
+      "kategori": "salata"
+    },
+    "mevsim_salata": {
+      "display_name": "Mevsim Salata",
+      "calories_per_100g": 30,
+      "protein_per_100g": 1.3,
+      "fat_per_100g": 1.0,
+      "carbs_per_100g": 4.5,
+      "kategori": "salata"
+    },
+    "gavurdagi_salatasi": {
+      "display_name": "Gavurdağı Salatası",
+      "calories_per_100g": 90,
+      "protein_per_100g": 2.5,
+      "fat_per_100g": 6.5,
+      "carbs_per_100g": 7,
+      "kategori": "salata"
+    },
+    "ayran": {
+      "display_name": "Ayran",
+      "calories_per_100g": 38,
+      "protein_per_100g": 1.7,
+      "fat_per_100g": 1.5,
+      "carbs_per_100g": 2.6,
+      "kategori": "icecek"
+    },
+    "kola": {
+      "display_name": "Kola",
+      "calories_per_100g": 42,
+      "protein_per_100g": 0,
+      "fat_per_100g": 0,
+      "carbs_per_100g": 10.6,
+      "kategori": "icecek"
+    },
+    "su": {
+      "display_name": "Su",
+      "calories_per_100g": 0,
+      "protein_per_100g": 0,
+      "fat_per_100g": 0,
+      "carbs_per_100g": 0,
+      "kategori": "icecek"
+    },
+    "turk_kahvesi": {
+      "display_name": "Türk Kahvesi (sade)",
+      "calories_per_100g": 2,
+      "protein_per_100g": 0.1,
+      "fat_per_100g": 0,
+      "carbs_per_100g": 0,
+      "kategori": "icecek"
+    },
+    "cay": {
+      "display_name": "Çay (şekersiz)",
+      "calories_per_100g": 1,
+      "protein_per_100g": 0,
+      "fat_per_100g": 0,
+      "carbs_per_100g": 0.3,
+      "kategori": "icecek"
+    },
+    "meyve_suyu": {
+      "display_name": "Meyve Suyu",
+      "calories_per_100g": 45,
+      "protein_per_100g": 0.5,
+      "fat_per_100g": 0.2,
+      "carbs_per_100g": 11,
+      "kategori": "icecek"
+    },
+    "ekmek": {
+      "display_name": "Ekmek (beyaz)",
+      "calories_per_100g": 265,
+      "protein_per_100g": 9,
+      "fat_per_100g": 3.2,
+      "carbs_per_100g": 49,
+      "kategori": "ekmek"
+    },
+    "lavas": {
+      "display_name": "Lavaş",
+      "calories_per_100g": 275,
+      "protein_per_100g": 8,
+      "fat_per_100g": 1.2,
+      "carbs_per_100g": 56,
+      "kategori": "ekmek"
+    },
+    "pide_ekmek": {
+      "display_name": "Pide Ekmek",
+      "calories_per_100g": 290,
+      "protein_per_100g": 9.5,
+      "fat_per_100g": 4,
+      "carbs_per_100g": 54,
+      "kategori": "ekmek"
+    },
+    "bulgur_pilavi": {
+      "display_name": "Bulgur Pilavı",
+      "calories_per_100g": 170,
+      "protein_per_100g": 5,
+      "fat_per_100g": 4,
+      "carbs_per_100g": 30,
+      "kategori": "yan_yemek"
+    },
+    "patates_kizartmasi": {
+      "display_name": "Patates Kızartması",
+      "calories_per_100g": 312,
+      "protein_per_100g": 3.4,
+      "fat_per_100g": 15,
+      "carbs_per_100g": 41,
+      "kategori": "yan_yemek"
+    },
+    "sutlac": {
+      "display_name": "Sütlaç",
+      "calories_per_100g": 130,
+      "protein_per_100g": 3.5,
+      "fat_per_100g": 3,
+      "carbs_per_100g": 22,
+      "kategori": "tatli"
+    },
+    "kunefe": {
+      "display_name": "Künefe",
+      "calories_per_100g": 380,
+      "protein_per_100g": 8,
+      "fat_per_100g": 20,
+      "carbs_per_100g": 42,
+      "kategori": "tatli"
+    },
+    "kazandibi": {
+      "display_name": "Kazandibi",
+      "calories_per_100g": 240,
+      "protein_per_100g": 4,
+      "fat_per_100g": 7,
+      "carbs_per_100g": 40,
+      "kategori": "tatli"
+    },
+    "yogurt": {
+      "display_name": "Yoğurt (sade)",
+      "calories_per_100g": 65,
+      "protein_per_100g": 3.5,
+      "fat_per_100g": 3.3,
+      "carbs_per_100g": 4.7,
+      "kategori": "atistirmalik"
+    },
+    "beyaz_peynir": {
+      "display_name": "Beyaz Peynir",
+      "calories_per_100g": 270,
+      "protein_per_100g": 17,
+      "fat_per_100g": 22,
+      "carbs_per_100g": 1.5,
+      "kategori": "atistirmalik"
+    },
+    "zeytin": {
+      "display_name": "Zeytin (yeşil)",
+      "calories_per_100g": 145,
+      "protein_per_100g": 1,
+      "fat_per_100g": 15,
+      "carbs_per_100g": 4,
+      "kategori": "atistirmalik"
+    },
+    "elma": {
+      "display_name": "Elma",
+      "calories_per_100g": 52,
+      "protein_per_100g": 0.3,
+      "fat_per_100g": 0.2,
+      "carbs_per_100g": 14,
+      "kategori": "meyve"
+    },
+    "muz": {
+      "display_name": "Muz",
+      "calories_per_100g": 89,
+      "protein_per_100g": 1.1,
+      "fat_per_100g": 0.3,
+      "carbs_per_100g": 23,
+      "kategori": "meyve"
+    },
+    "portakal": {
+      "display_name": "Portakal",
+      "calories_per_100g": 47,
+      "protein_per_100g": 0.9,
+      "fat_per_100g": 0.1,
+      "carbs_per_100g": 12,
+      "kategori": "meyve"
+    }
+  },
   "mlp_action_classes": {
     "0": {
       "label": "Normal Beslenme",
