@@ -1,0 +1,41 @@
+# sanal ortam, sisteme özel dosyalar
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# model ağırlıkları, bunlar büyük olduğu için repoya girmez
+*.pt
+*.pth
+*.onnx
+*.safetensors
+models/*
+!models/.gitkeep
+
+# veri klasörleri
+data/turkishfoods25_subset/
+data/auto_labeled/
+data/nutrition5k_subset/
+*.parquet
+*.npy
+
+# pyenv yerel versiyon dosyası
+.python-version
+
+# işletim sistemi dosyaları
+.DS_Store
+Thumbs.db
+
+# streamlit
+.streamlit/secrets.toml
+
+# log ve çalışma dosyaları
+*.log
+logs/
+runs/
+wandb/
+
+# büyük medya dosyaları
+*.mp4
+*.mov

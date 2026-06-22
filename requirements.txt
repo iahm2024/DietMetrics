@@ -1,0 +1,24 @@
+# arayüz
+streamlit==1.45.1
+
+# bilgisayarlı görü ve derin öğrenme
+ultralytics==8.3.145
+torch==2.7.0
+torchvision==0.22.0
+
+# görüntü işleme
+opencv-python==4.11.0.86
+pillow==11.2.1
+
+# veri ve hesaplama
+numpy==2.2.5
+pandas==2.2.3
+scikit-learn==1.6.1
+
+# hugging face ekosistemi
+datasets==3.6.0
+huggingface-hub==0.32.2
+transformers==4.51.3
+
+# görselleştirme
+matplotlib==3.10.3
