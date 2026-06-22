@@ -28,25 +28,41 @@ def kullanicilari_getir():
     return sorted([k for k, v in log.items() if isinstance(v, dict)])
 
 
-def kullanici_ekle(kullanici_adi, gunluk_hedef=2000):
-    # Profil olustur. Eger zaten varsa sadece hedefi guncelle.
+def kullanici_ekle(kullanici_adi, gunluk_hedef=2000, rol="user",
+                   yas=None, boy_cm=None, kilo_kg=None, cinsiyet=None,
+                   hedef_protein_g=None, email=None):
+    # Profil olustur veya guncelle
     log = log_yukle()
+
+    profil_data = {
+        "gunluk_hedef": int(gunluk_hedef),
+        "rol": rol,
+        "yas": yas,
+        "boy_cm": boy_cm,
+        "kilo_kg": kilo_kg,
+        "cinsiyet": cinsiyet,
+        "hedef_protein_g": hedef_protein_g,
+        "email": email or f"{kullanici_adi.lower()}@example.com",
+    }
 
     if kullanici_adi not in log:
         log[kullanici_adi] = {
-            "_profil": {"gunluk_hedef": int(gunluk_hedef)},
+            "_profil": profil_data,
             "gunler": {}
         }
     else:
-        # Eski format ise (gunler direkt key olarak duruyorsa) tasi
         if "_profil" not in log[kullanici_adi]:
             eski_gunler = {k: v for k, v in log[kullanici_adi].items() if k != "_profil"}
             log[kullanici_adi] = {
-                "_profil": {"gunluk_hedef": int(gunluk_hedef)},
+                "_profil": profil_data,
                 "gunler": eski_gunler
             }
         else:
-            log[kullanici_adi]["_profil"]["gunluk_hedef"] = int(gunluk_hedef)
+            # Mevcut profili korurken sadece dolu alanlari guncelle
+            mevcut_profil = log[kullanici_adi]["_profil"]
+            for k, v in profil_data.items():
+                if v is not None:
+                    mevcut_profil[k] = v
 
     log_kaydet(log)
 
@@ -192,3 +208,52 @@ def son_gunler(kullanici_adi, gun_sayisi=7):
             sonuc.append(ozet)
 
     return sonuc
+
+def kullanici_profili(kullanici_adi):
+    # Tum profil bilgisini don
+    log = log_yukle()
+    if kullanici_adi in log and isinstance(log[kullanici_adi], dict):
+        return log[kullanici_adi].get("_profil", {})
+    return {}
+
+
+def kullanici_rolu(kullanici_adi):
+    profil = kullanici_profili(kullanici_adi)
+    return profil.get("rol", "user")
+
+
+def kullanicilari_role_gore_getir(rol):
+    # Belirli bir roldeki tum kullanicilari listele
+    log = log_yukle()
+    sonuc = []
+    for k, v in log.items():
+        if isinstance(v, dict):
+            profil = v.get("_profil", {})
+            if profil.get("rol", "user") == rol:
+                sonuc.append(k)
+    return sorted(sonuc)
+
+
+def kullanici_sil(kullanici_adi):
+    log = log_yukle()
+    if kullanici_adi in log:
+        del log[kullanici_adi]
+        log_kaydet(log)
+        return True
+    return False
+
+
+def tum_kullanicilar_detayli():
+    # Admin paneli icin
+    log = log_yukle()
+    sonuc = []
+    for k, v in log.items():
+        if isinstance(v, dict):
+            profil = v.get("_profil", {})
+            sonuc.append({
+                "ad": k,
+                "rol": profil.get("rol", "user"),
+                "email": profil.get("email", "-"),
+                "hedef_kalori": profil.get("gunluk_hedef", 2000),
+            })
+    return sorted(sonuc, key=lambda x: (x["rol"], x["ad"]))
