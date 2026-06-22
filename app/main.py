@@ -6,7 +6,9 @@ from pathlib import Path
 from PIL import Image
 import tempfile
 import os
+import sys
 
+sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.append(str(Path(__file__).parent.parent))
 
 st.set_page_config(
@@ -343,11 +345,19 @@ with sekme_analiz:
             """, unsafe_allow_html=True)
 
 with sekme_chat:
+    from app.ollama_client import mesaj_gonder, ollama_calisiyor_mu
+
     if "mesajlar" not in st.session_state:
         st.session_state.mesajlar = [
             {"rol": "asistan",
              "icerik": "Merhaba! Beslenme konusunda sana yardımcı olabilirim."}
         ]
+
+    # ollama durum göstergesi
+    if ollama_calisiyor_mu():
+        st.success("🟢 Yemek danışmanı aktif")
+    else:
+        st.error("🔴 Ollama bağlantısı yok — terminalde 'ollama serve' çalıştır")
 
     for mesaj in st.session_state.mesajlar:
         with st.chat_message(
@@ -359,8 +369,16 @@ with sekme_chat:
     if kullanici_mesaji:
         st.session_state.mesajlar.append(
             {"rol": "kullanici", "icerik": kullanici_mesaji})
+
+        with st.spinner("Düşünüyor..."):
+            cevap = mesaj_gonder(
+                kullanici_mesaji,
+                sohbet_gecmisi=st.session_state.mesajlar,
+                yemek_bilgisi=st.session_state.get("son_analiz")
+            )
+
         st.session_state.mesajlar.append(
-            {"rol": "asistan", "icerik": "Ollama henüz bağlı değil."})
+            {"rol": "asistan", "icerik": cevap})
         st.rerun()
 
 with sekme_ayarlar:
