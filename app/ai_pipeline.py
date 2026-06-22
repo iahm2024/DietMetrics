@@ -1,109 +1,114 @@
 import json
+import tempfile
+import os
 from pathlib import Path
+from PIL import Image
 
-# ultralytics kurulumu bitince bu import aktif olacak
 try:
     from ultralytics import YOLO
     YOLO_HAZIR = True
 except ImportError:
     YOLO_HAZIR = False
 
-# food_db yükle
-def veritabani_yukle():
-    db_yolu = Path(__file__).parent.parent / "data" / "food_db.json"
-    with open(db_yolu, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-# COCO sınıf isimleri (bize lazım olanlar)
-COCO_REFERANS = {
-    42: "fork",
-    44: "spoon",
-    45: "bowl",
-    47: "cup",
+# COCO'da yemek benzeri sınıflar ve food_db karşılıkları
+COCO_TÜRK_ESLESTIRME = {
+    "cake": "baklava",
+    "donut": "baklava",
+    "sandwich": "kebap",
+    "pizza": "lahmacun",
+    "hot dog": "kebap",
+    "bowl": "pirinc_pilavi",
+    "rice": "pirinc_pilavi",
 }
 
-COCO_YEMEK = {
-    46: "banana",
-    47: "apple",
-    49: "orange",
-    51: "carrot",
-    52: "hot dog",
-    53: "pizza",
-    54: "donut",
-    55: "cake",
-    56: "sandwich",
-}
+COCO_REFERANS = ["fork", "spoon", "knife", "bowl", "cup", "dining table"]
 
-def coco_modeli_yukle():
-    if not YOLO_HAZIR:
-        return None
-    try:
-        # YOLOv8n en küçük model, hızlı çalışır
-        model = YOLO("yolov8n.pt")
-        return model
-    except Exception as e:
-        print(f"Model yüklenemedi: {e}")
-        return None
+COCO_YEMEK = [
+    "banana", "apple", "sandwich", "orange", "broccoli",
+    "carrot", "hot dog", "pizza", "donut", "cake", "bowl"
+]
 
-def fotografi_analiz_et(fotograf_yolu, model):
-    if model is None or not YOLO_HAZIR:
-        # model hazır değil, mock sonuç döndür
+_model = None
+
+def model_yukle():
+    global _model
+    if _model is None and YOLO_HAZIR:
+        _model = YOLO("yolov8n.pt")
+    return _model
+
+def goruntu_analiz_et(fotograf_verisi):
+    model = model_yukle()
+
+    if model is None:
         return {
             "basarili": False,
-            "hata": "Model henüz yüklenmedi",
+            "hata": "Model yüklenemedi",
+            "otomatik_tespit": None,
+            "tespitler": [],
             "referans": None,
-            "coco_tespit": None,
         }
 
     try:
-        sonuclar = model(fotograf_yolu, verbose=False)
-        tespit_listesi = []
+        img = Image.open(fotograf_verisi).convert("RGB")
+        tmp = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
+        img.save(tmp.name)
+        tmp.close()
 
-        for sonuc in sonuclar:
-            for kutu in sonuc.boxes:
-                sinif_id = int(kutu.cls[0])
+        sonuclar = model(tmp.name, verbose=False, conf=0.35)
+        os.unlink(tmp.name)
+
+        tespitler = []
+        for s in sonuclar:
+            for kutu in s.boxes:
+                sinif_adi = s.names[int(kutu.cls[0])]
                 confidence = float(kutu.conf[0])
-                sinif_adi = sonuc.names[sinif_id]
-
-                tespit_listesi.append({
-                    "sinif_id": sinif_id,
-                    "sinif_adi": sinif_adi,
+                tespitler.append({
+                    "sinif": sinif_adi,
                     "confidence": confidence,
                     "bbox": kutu.xyxy[0].tolist(),
                 })
 
-        # referans nesne bul (çatal > kaşık > kase)
+        tespitler.sort(key=lambda x: x["confidence"], reverse=True)
+
+        # referans nesne bul
         referans = None
-        for tespit in sorted(tespit_listesi,
-                             key=lambda x: x["confidence"],
-                             reverse=True):
-            if tespit["sinif_id"] in COCO_REFERANS:
-                referans = tespit
+        for t in tespitler:
+            if t["sinif"] in COCO_REFERANS:
+                referans = t
                 break
 
-        # yemek benzeri nesne bul
-        coco_yemek = None
-        for tespit in sorted(tespit_listesi,
-                             key=lambda x: x["confidence"],
-                             reverse=True):
-            if tespit["sinif_id"] in COCO_YEMEK:
-                coco_yemek = tespit
-                break
+        # otomatik yemek tespiti
+        otomatik_tespit = None
+        otomatik_confidence = 0
+
+        for t in tespitler:
+            if t["sinif"] in COCO_TÜRK_ESLESTIRME:
+                turkish_karsilik = COCO_TÜRK_ESLESTIRME[t["sinif"]]
+                if t["confidence"] > otomatik_confidence:
+                    otomatik_tespit = turkish_karsilik
+                    otomatik_confidence = t["confidence"]
 
         return {
             "basarili": True,
-            "tum_tespitler": tespit_listesi,
+            "tespitler": tespitler,
             "referans": referans,
-            "coco_tespit": coco_yemek,
+            "otomatik_tespit": otomatik_tespit,
+            "otomatik_confidence": otomatik_confidence,
         }
 
     except Exception as e:
         return {
             "basarili": False,
             "hata": str(e),
+            "otomatik_tespit": None,
+            "tespitler": [],
             "referans": None,
-            "coco_tespit": None,
         }
+
+def veritabani_yukle():
+    db_yolu = Path(__file__).parent.parent / "data" / "food_db.json"
+    with open(db_yolu, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def kalori_hesapla(yemek_adi, gram, db):
     if yemek_adi in db["turkish_classes"]:
@@ -113,16 +118,6 @@ def kalori_hesapla(yemek_adi, gram, db):
             "protein": (y["protein_per_100g"] * gram) / 100,
             "yag": (y["fat_per_100g"] * gram) / 100,
             "karb": (y["carbs_per_100g"] * gram) / 100,
-            "bilgi": y,
-        }
-    elif yemek_adi in db["coco_fallback_classes"]:
-        y = db["coco_fallback_classes"][yemek_adi]
-        kalori = (y["calories_per_100g"] * gram) / 100
-        return {
-            "kalori": kalori,
-            "protein": 0,
-            "yag": 0,
-            "karb": 0,
             "bilgi": y,
         }
     return None

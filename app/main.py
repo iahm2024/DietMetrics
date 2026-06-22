@@ -221,34 +221,31 @@ with sekme_analiz:
     with sag:
         if aktif_fotograf and analiz_baslat:
             with st.spinner("Analiz ediliyor..."):
-                from ultralytics import YOLO
-                import tempfile, os
-                from PIL import Image
+                from app.ai_pipeline import goruntu_analiz_et
+                analiz = goruntu_analiz_et(aktif_fotograf)
+                tespitler = analiz.get("tespitler", [])
 
-                # fotoğrafı geçici dosyaya kaydet
-                img = Image.open(aktif_fotograf).convert("RGB")
-                tmp = tempfile.NamedTemporaryFile(
-                    suffix=".jpg", delete=False)
-                img.save(tmp.name)
-
-                # YOLO çalıştır
-                model = YOLO("yolov8n.pt")
-                sonuclar = model(tmp.name, verbose=False)
-                os.unlink(tmp.name)
-
-                # tespitleri topla
-                tespitler = []
-                for s in sonuclar:
-                    for kutu in s.boxes:
-                        tespitler.append({
-                            "sinif": s.names[int(kutu.cls[0])],
-                            "confidence": float(kutu.conf[0])
-                        })
-
-            tespit = secilen_yemek
+                # otomatik tespit varsa kullan, yoksa dropdown
+                if analiz["otomatik_tespit"] and analiz["otomatik_confidence"] > 0.45:
+                    tespit = analiz["otomatik_tespit"]
+                    st.success(f"✅ Otomatik tespit: confidence %{analiz['otomatik_confidence']*100:.0f}")
+                else:
+                    tespit = secilen_yemek
+                    st.info("ℹ️ Otomatik tespit yapılamadı, seçilen yemek kullanıldı.")
 
             y = db["turkish_classes"][tespit]
-            gram = y["avg_portion_g"] * porsiyon_carpani
+            referans = analiz.get("referans")
+            if referans:
+                from app.heuristic_engine import gramaj_hesapla
+                goruntu_genisligi = 640
+                gram = gramaj_hesapla(
+                    tespit, porsiyon_carpani,
+                    referans, goruntu_genisligi, db
+                )
+                st.caption(f"📏 Referans: {referans['sinif']} (%{referans['confidence']*100:.0f})")
+            else:
+                gram = y["avg_portion_g"] * porsiyon_carpani
+                st.caption("📏 Referans nesne bulunamadı, ortalama porsiyon kullanıldı.")
             kalori = (y["calories_per_100g"] * gram) / 100
             protein = (y["protein_per_100g"] * gram) / 100
             yag = (y["fat_per_100g"] * gram) / 100
