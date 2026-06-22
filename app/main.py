@@ -184,6 +184,19 @@ with sekme_analiz:
         if aktif_fotograf:
             st.image(aktif_fotograf, width="stretch")
             st.markdown("---")
+
+            yemek_secenekleri = {
+                "Baklava": "baklava",
+                "Lahmacun": "lahmacun",
+                "Pirinç Pilavı": "pirinc_pilavi",
+                "Kebap": "kebap",
+            }
+            secilen_yemek_label = st.selectbox(
+                "Yemek Seç",
+                options=list(yemek_secenekleri.keys()),
+            )
+            secilen_yemek = yemek_secenekleri[secilen_yemek_label]
+
             porsiyon_carpani = st.slider(
                 "Porsiyon çarpanı",
                 min_value=0.5,
@@ -205,7 +218,7 @@ with sekme_analiz:
             with st.spinner("Analiz ediliyor..."):
                 time.sleep(0.8)
 
-            tespit = "baklava"
+            tespit = secilen_yemek
             y = db["turkish_classes"][tespit]
             gram = y["avg_portion_g"] * porsiyon_carpani
             kalori = (y["calories_per_100g"] * gram) / 100
