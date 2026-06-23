@@ -601,13 +601,6 @@ if st.session_state["aktif_sayfa"] == "Analiz":
             otomatik_tespit = sonuc["otomatik_tespit"]
             referans = sonuc["referans"]
 
-            # Tespit mesaji
-            msg_tip, msg_txt = sonuc["tespit_mesaji"]
-            if msg_tip == "success":
-                st.success(msg_txt)
-            else:
-                st.info(msg_txt)
-
             # Maskeli goruntu
             if maskeler is not None and len(maskeler) > 0:
                 from app.seg_gorsel import maskeli_goruntu_olustur
@@ -637,13 +630,6 @@ if st.session_state["aktif_sayfa"] == "Analiz":
                 st.caption(f"📏 Referans: {referans['sinif']} (%{referans['confidence']*100:.0f})")
             else:
                 st.caption("📏 Referans nesne yok · ortalama porsiyon kullanildi")
-
-            if tespitler:
-                tespit_metni = ", ".join([
-                    f"{t['sinif']} (%{t['confidence']*100:.0f})"
-                    for t in tespitler[:6]
-                ])
-                st.info(f"🔍 Görüntüde tespit edilenler: {tespit_metni}")
 
             # Her sinif icin gramaj + kalori hesabi
             from app.heuristic_engine import gramaj_hesapla
@@ -1509,7 +1495,6 @@ if st.session_state["aktif_sayfa"] == "Profil":
 if st.session_state["aktif_sayfa"] == "Danisanlar":
     from app.diyetisyen_panel import dietisyen_panel_goster
     dietisyen_panel_goster()
-# şimdi ekstra kalan şeyler silinicek admine danışana müşteri atama eklenecek oto atmayacak
 # ADMIN SAYFASI
 if st.session_state["aktif_sayfa"] == "Admin":
     from app.admin_panel import admin_panel_goster

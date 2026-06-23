@@ -11,24 +11,13 @@ try:
 except ImportError:
     YOLO_HAZIR = False
  
-# Custom modelin tanidigi 4 sinif (egitim sirasinda ayni sirayla geldi)
+# Custom modelin tanidigi 4 sinif
 CUSTOM_SINIFLAR = ["baklava", "kebap", "lahmacun", "pirinc_pilavi"]
- 
-# COCO'da yemek benzeri siniflar ve food_db karsiliklari (fallback)
-COCO_TURK_ESLESTIRME = {
-    "cake": "baklava",
-    "donut": "baklava",
-    "sandwich": "kebap",
-    "pizza": "lahmacun",
-    "hot dog": "kebap",
-    "bowl": "pirinc_pilavi",
-    "rice": "pirinc_pilavi",
-}
  
 COCO_REFERANS = ["fork", "spoon", "knife", "bowl", "cup", "dining table"]
  
 # Confidence esik degerleri
-CUSTOM_CONF_ESIK = 0.40   # Custom model bu degerin altinda guvenmiyorsa COCO devreye girer
+CUSTOM_CONF_ESIK = 0.40
 COCO_CONF_ESIK = 0.35
  
 # Model singleton'lari
@@ -152,22 +141,6 @@ def goruntu_analiz_et(fotograf_verisi):
                     sonuc["referans"] = t
                     break
             
-            # Custom model bulamadiysa COCO fallback
-            if not otomatik_bulundu:
-                en_iyi_conf = 0
-                for t in coco_tespitler:
-                    if t["sinif"] in COCO_TURK_ESLESTIRME:
-                        turkish_karsilik = COCO_TURK_ESLESTIRME[t["sinif"]]
-                        if t["confidence"] > en_iyi_conf:
-                            sonuc["otomatik_tespit"] = turkish_karsilik
-                            sonuc["otomatik_confidence"] = t["confidence"]
-                            en_iyi_conf = t["confidence"]
-                
-                if sonuc["otomatik_tespit"]:
-                    sonuc["kullanilan_model"] = "coco_fallback"
-                
-                # COCO tespitlerini de ekle (UI gosterimi icin)
-                sonuc["tespitler"].extend(coco_tespitler)
         
         os.unlink(tmp.name)
         return sonuc

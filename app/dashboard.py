@@ -87,10 +87,18 @@ def dashboard_goster(aktif_kullanici):
     </div>
     """, unsafe_allow_html=True)
 
-    # Makro dagilimi
-    p_yuzde = min(ozet["toplam_protein"] / 150 * 100, 100)
-    k_yuzde = min(ozet["toplam_karb"] / 300 * 100, 100)
-    y_yuzde = min(ozet["toplam_yag"] / 80 * 100, 100)
+    # Makro dagilimi - hedeflere gore (varsa) veya gunluk standart referansa gore
+    # Standart referans: P 0.8g/kg kilo, Karb hedef kalorinin %50si, Yag hedef kalorinin %30u
+    kilo_g = profil.get("kilo_kg") or 70  # Default 70 kg
+    hedef_kal_makro = hedef or 2000
+
+    hedef_protein_g_ref = profil.get("hedef_protein_g") or max(int(kilo_g * 1.0), 50)
+    hedef_karb_g_ref = (hedef_kal_makro * 0.50) / 4
+    hedef_yag_g_ref = (hedef_kal_makro * 0.30) / 9
+
+    p_yuzde = min(ozet["toplam_protein"] / hedef_protein_g_ref * 100, 100) if hedef_protein_g_ref else 0
+    k_yuzde = min(ozet["toplam_karb"] / hedef_karb_g_ref * 100, 100) if hedef_karb_g_ref else 0
+    y_yuzde = min(ozet["toplam_yag"] / hedef_yag_g_ref * 100, 100) if hedef_yag_g_ref else 0
 
     st.markdown(f"""
     <div style="background:#F1F5F9;border:1px solid #A7F3D0;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;">
