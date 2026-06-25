@@ -75,7 +75,7 @@ def goruntu_analiz_et(fotograf_verisi):
         
         # 1) Custom model - yemek tespiti icin
         if custom is not None:
-            sonuclar = custom(tmp.name, verbose=False, conf=CUSTOM_CONF_ESIK)
+            sonuclar = custom(tmp.name, verbose=False, conf=CUSTOM_CONF_ESIK, iou=0.5)
             
             custom_tespitler = []
             maskeler = []
