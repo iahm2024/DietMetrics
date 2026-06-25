@@ -5,7 +5,7 @@ from app.gunluk_takip import (
 
 
 def giris_ekrani_goster():
-    # CaloriAI giris/kayit ekrani
+    # DietMetrics giris/kayit ekrani
 
     # Logo ve baslik
     st.markdown("""
@@ -16,7 +16,7 @@ def giris_ekrani_goster():
             🥗
         </div>
         <h1 style="font-size:36px;font-weight:700;color:#1A202C;margin:20px 0 8px;letter-spacing:-1px;">
-            CaloriAI
+            DietMetrics
         </h1>
         <p style="font-size:15px;color:#64748B;margin:0;">
             Yapay zeka destekli beslenme asistanın

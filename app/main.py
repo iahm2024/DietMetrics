@@ -7,7 +7,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).parent.parent))
  
 st.set_page_config(
-    page_title="Prompt Engineers - Calori AI",
+    page_title="Prompt Engineers - DietMetrics",
     page_icon="🍽️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -154,7 +154,7 @@ st.markdown("""
 <div class="ust_bar">
     <div class="logo_alan">
         <div class="logo_daire">📊</div>
-        <div><p class="logo_yazi">Prompt Engineers - Calori AI</p></div>
+        <div><p class="logo_yazi">Prompt Engineers - DietMetrics</p></div>
     </div>
     <div class="durum_pill">
         <div class="durum_nokta"></div>

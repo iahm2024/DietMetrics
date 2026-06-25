@@ -1,4 +1,4 @@
-path: /home/Aibra/Programming/CaloriProject/data/yolo_dataset
+path: /data/yolo_dataset
 train: images/train
 val: images/val
 nc: 4
