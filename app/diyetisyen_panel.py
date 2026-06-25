@@ -21,19 +21,20 @@ def _tarih_tr(tarih_str):
         return tarih_str
 
 
-def dietisyen_panel_goster():
-    st.markdown("""
+def diyetisyen_panel_goster(aktif_kullanici):
+    st.markdown(f"""
     <div style="margin-bottom:1.5rem;">
         <h1 style="font-size:28px;font-weight:700;color:#1A202C;margin:0;letter-spacing:-0.5px;">
             🩺 Danışanlarım
         </h1>
         <p style="font-size:14px;color:#64748B;margin:6px 0 0;">
-            Danışanlarının profillerini ve günlüklerini incele, hedeflerini belirle.
+            Sana atanmış danışanların profillerini ve günlüklerini incele, hedeflerini belirle.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    danisanlar = kullanicilari_role_gore_getir("user")
+    from app.gunluk_takip import diyetisyenin_danisanlari
+    danisanlar = diyetisyenin_danisanlari(aktif_kullanici)
 
     if not danisanlar:
         st.markdown("""
@@ -41,17 +42,20 @@ def dietisyen_panel_goster():
                     padding:2rem;text-align:center;">
             <p style="font-size:48px;margin:0;">👥</p>
             <p style="font-size:16px;color:#64748B;margin:12px 0 0;">
-                Henüz danışan yok.
+                Henüz sana atanmış danışan yok.
+            </p>
+            <p style="font-size:13px;color:#94A3B8;margin:6px 0 0;">
+                Sistem yöneticisi danışan atadığında burada görünecek.
             </p>
         </div>
         """, unsafe_allow_html=True)
         return
 
     # Danisan secimi
-    secili = st.session_state.get("dietisyen_secili_danisan")
+    secili = st.session_state.get("diyetisyen_secili_danisan")
     if secili not in danisanlar:
         secili = danisanlar[0]
-        st.session_state["dietisyen_secili_danisan"] = secili
+        st.session_state["diyetisyen_secili_danisan"] = secili
 
     # Danisan listesi (sol kolon) + detay (sag kolon)
     kol_sol, kol_sag = st.columns([2, 5])
@@ -63,7 +67,7 @@ def dietisyen_panel_goster():
             tip = "primary" if aktif else "secondary"
             etiket = f"{'✓ ' if aktif else ''}{d}"
             if st.button(etiket, key=f"diet_dan_{d}", type=tip, use_container_width=True):
-                st.session_state["dietisyen_secili_danisan"] = d
+                st.session_state["diyetisyen_secili_danisan"] = d
                 st.rerun()
 
     with kol_sag:

@@ -83,58 +83,6 @@
       "porsiyon_birimi": "şiş"
     }
   },
-  "coco_fallback_classes": {
-    "donut": {
-      "display_name": "Çörek / Donut",
-      "calories_per_100g": 250,
-      "avg_portion_g": 60
-    },
-    "cake": {
-      "display_name": "Pasta / Kek",
-      "calories_per_100g": 350,
-      "avg_portion_g": 80
-    },
-    "pizza": {
-      "display_name": "Pizza",
-      "calories_per_100g": 270,
-      "avg_portion_g": 120
-    },
-    "sandwich": {
-      "display_name": "Sandviç",
-      "calories_per_100g": 250,
-      "avg_portion_g": 200
-    },
-    "hot dog": {
-      "display_name": "Sosisli",
-      "calories_per_100g": 290,
-      "avg_portion_g": 100
-    },
-    "banana": {
-      "display_name": "Muz",
-      "calories_per_100g": 89,
-      "avg_portion_g": 120
-    },
-    "apple": {
-      "display_name": "Elma",
-      "calories_per_100g": 52,
-      "avg_portion_g": 180
-    },
-    "orange": {
-      "display_name": "Portakal",
-      "calories_per_100g": 47,
-      "avg_portion_g": 130
-    },
-    "broccoli": {
-      "display_name": "Brokoli",
-      "calories_per_100g": 34,
-      "avg_portion_g": 90
-    },
-    "carrot": {
-      "display_name": "Havuç",
-      "calories_per_100g": 41,
-      "avg_portion_g": 60
-    }
-  },
   "reference_objects": {
     "fork": {
       "display_name": "Yemek Çatalı",

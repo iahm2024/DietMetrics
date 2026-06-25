@@ -6,7 +6,7 @@ from app.gunluk_takip import (
 
 
 ROL_ETIKET = {
-    "user": "Kullanıcı",
+    "user": "Danışan",
     "dietitian": "Diyetisyen",
     "admin": "Admin"
 }
@@ -32,10 +32,18 @@ def admin_panel_goster(aktif_kullanici):
 
     # Yeni kullanici olusturma
     with st.expander("➕ Yeni Kullanıcı Oluştur (rol belirleyerek)"):
+        from app.gunluk_takip import kullanici_olustur_sifreyle
+
         a1, a2 = st.columns(2)
         with a1:
-            yeni_ad = st.text_input("Kullanıcı adı", key="admin_yeni_ad", placeholder="örn. Mehmet")
-            yeni_email = st.text_input("E-posta", key="admin_yeni_email", placeholder="ornek@mail.com")
+            yeni_ad = st.text_input("Ad Soyad", key="admin_yeni_ad", placeholder="örn. Mehmet")
+            yeni_email = st.text_input("Email", key="admin_yeni_email", placeholder="ornek@mail.com")
+            yeni_sifre = st.text_input(
+                "Şifre (en az 4 karakter)",
+                type="password",
+                key="admin_yeni_sifre",
+                placeholder="••••••"
+            )
         with a2:
             yeni_rol = st.selectbox(
                 "Rol",
@@ -50,19 +58,18 @@ def admin_panel_goster(aktif_kullanici):
             )
 
         if st.button("✅ Kullanıcı Oluştur", type="primary", use_container_width=True, key="admin_yeni_btn"):
-            if yeni_ad.strip():
-                mevcutlar = kullanicilari_getir()
-                if yeni_ad.strip() in mevcutlar:
-                    st.error("⚠️ Bu kullanıcı adı zaten var.")
-                else:
-                    kullanici_ekle(
-                        yeni_ad.strip(),
-                        gunluk_hedef=yeni_hedef,
-                        rol=yeni_rol,
-                        email=yeni_email if yeni_email else None
-                    )
-                    st.toast(f"✅ {yeni_ad.strip()} oluşturuldu ({ROL_ETIKET[yeni_rol]})", icon="🛡️")
-                    st.rerun()
+            basarili_y, hata_y = kullanici_olustur_sifreyle(
+                ad=yeni_ad,
+                email=yeni_email,
+                sifre=yeni_sifre,
+                gunluk_hedef=yeni_hedef,
+                rol=yeni_rol
+            )
+            if basarili_y:
+                st.toast(f"✅ {yeni_ad.strip()} oluşturuldu ({ROL_ETIKET[yeni_rol]})", icon="🛡️")
+                st.rerun()
+            else:
+                st.error(f"❌ {hata_y}")
 
     st.markdown("---")
 
@@ -152,24 +159,85 @@ def admin_panel_goster(aktif_kullanici):
                     st.rerun()
 
             with k3:
-                if kendisi:
-                    st.caption("Kendin")
+                # User rolune diyetisyen ata
+                if rol == "user" and not kendisi:
+                    from app.gunluk_takip import (
+                        kullanici_profili as kp_admin,
+                        diyetisyen_ata, diyetisyen_kaldir,
+                        kullanicilari_role_gore_getir as krgg
+                    )
+
+                    profil_k = kp_admin(k["ad"])
+                    mevcut_diet = profil_k.get("atanmis_diyetisyen", "—")
+
+                    tum_diyetisyenler = krgg("dietitian")
+                    secenekler = ["(Atanmamış)"] + tum_diyetisyenler
+
+                    mevcut_idx = 0
+                    if mevcut_diet in tum_diyetisyenler:
+                        mevcut_idx = secenekler.index(mevcut_diet)
+
+                    secilen_diet = st.selectbox(
+                        "Diyetisyen",
+                        options=secenekler,
+                        index=mevcut_idx,
+                        key=f"admin_diet_{k['ad']}",
+                        label_visibility="collapsed"
+                    )
+
+                    if secilen_diet != (mevcut_diet if mevcut_diet in secenekler else "(Atanmamış)"):
+                        if secilen_diet == "(Atanmamış)":
+                            diyetisyen_kaldir(k["ad"])
+                            st.toast(f"🔓 {k['ad']} → diyetisyen kaldırıldı", icon="🔓")
+                        else:
+                            diyetisyen_ata(k["ad"], secilen_diet)
+                            st.toast(f"🔗 {k['ad']} → {secilen_diet}", icon="🔗")
+                        st.rerun()
+                elif kendisi:
+                    st.caption("Yönetici")
                 else:
-                    onay_key = f"admin_sil_onay_{k['ad']}"
-                    if st.session_state.get(onay_key):
-                        # Onay aktif
-                        sa, sb = st.columns(2)
-                        with sa:
-                            if st.button("❌ Vazgeç", key=f"admin_vazgec_{k['ad']}", use_container_width=True):
-                                st.session_state[onay_key] = False
-                                st.rerun()
-                        with sb:
-                            if st.button("✅ Sil!", key=f"admin_sil_onayli_{k['ad']}", use_container_width=True, type="primary"):
-                                kullanici_sil(k["ad"])
-                                st.session_state[onay_key] = False
-                                st.toast(f"🗑️ {k['ad']} silindi", icon="🗑️")
-                                st.rerun()
-                    else:
-                        if st.button("🗑️ Sil", key=f"admin_sil_{k['ad']}", use_container_width=True):
-                            st.session_state[onay_key] = True
+                    st.caption("—")
+            
+            # Sifre sifirlama (Admin yetkisi)
+            if not kendisi:
+                with st.expander(f"🔑 {k['ad']} için şifre sıfırla"):
+                    from app.gunluk_takip import sifre_degistir
+                    yeni_sifre_a = st.text_input(
+                        "Yeni şifre (en az 4 karakter)",
+                        type="password",
+                        key=f"admin_yeni_sifre_{k['ad']}",
+                        placeholder="••••••"
+                    )
+                    if st.button(
+                        "Şifreyi Güncelle",
+                        key=f"admin_sifre_btn_{k['ad']}",
+                        use_container_width=True
+                    ):
+                        basarili_s, hata_s = sifre_degistir(k["ad"], yeni_sifre_a)
+                        if basarili_s:
+                            st.toast(f"🔑 {k['ad']} şifresi güncellendi", icon="🔑")
                             st.rerun()
+                        else:
+                            st.error(f"❌ {hata_s}")
+
+            # Sil butonu
+            if not kendisi:
+                onay_key = f"admin_sil_onay_{k['ad']}"
+                if st.session_state.get(onay_key):
+                    sa, sb = st.columns(2)
+                    with sa:
+                        if st.button("❌ Vazgeç", key=f"admin_vazgec_{k['ad']}", use_container_width=True):
+                            st.session_state[onay_key] = False
+                            st.rerun()
+                    with sb:
+                        if st.button("✅ Sil!", key=f"admin_sil_onayli_{k['ad']}",
+                                    use_container_width=True, type="primary"):
+                            kullanici_sil(k["ad"])
+                            st.session_state[onay_key] = False
+                            st.toast(f"🗑️ {k['ad']} silindi", icon="🗑️")
+                            st.rerun()
+                else:
+                    if st.button("🗑️ Bu kullanıcıyı sil", key=f"admin_sil_{k['ad']}",
+                                use_container_width=True):
+                        st.session_state[onay_key] = True
+                        st.rerun()

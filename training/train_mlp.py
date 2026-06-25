@@ -6,10 +6,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 import joblib
 from pathlib import Path
- 
-CSV_PATH = Path("training/mlp_dataset.csv")
-MODEL_PATH = Path("models/mlp_action.pkl")
-SCALER_PATH = Path("models/mlp_scaler.pkl")
+
+PROJE_KOK = Path(__file__).resolve().parent.parent
+CSV_PATH = PROJE_KOK / "training" / "mlp_dataset.csv"
+MODEL_PATH = PROJE_KOK / "models" / "mlp_action.pkl"
+SCALER_PATH = PROJE_KOK / "models" / "mlp_scaler.pkl"
  
 AKSIYON_ADLARI = {
     0: "Normal Beslenme",

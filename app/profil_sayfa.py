@@ -6,7 +6,7 @@ from app.gunluk_takip import (
 
 
 ROL_ETIKET = {
-    "user": "Kullanıcı",
+    "user": "Danışan",
     "dietitian": "Diyetisyen",
     "admin": "Sistem Yöneticisi"
 }
@@ -71,6 +71,46 @@ def profil_sayfa_goster(aktif_kullanici):
         f'</div>'
     )
     st.markdown(hedef_html, unsafe_allow_html=True)
+
+    # Atanmış diyetisyen bilgisi
+    if rol == "user":
+        from app.gunluk_takip import kullanicinin_diyetisyeni, kullanici_profili as kp_diet
+        atanmis = kullanicinin_diyetisyeni(aktif_kullanici)
+
+        if atanmis:
+            diet_profili = kp_diet(atanmis)
+            diet_email = diet_profili.get("email", "-")
+            diet_harf = atanmis[0].upper()
+
+            diet_html = (
+                f'<div style="background:#F1F5F9;border:1px solid #A7F3D0;border-left:3px solid #D97706;'
+                f'border-radius:14px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;'
+                f'display:flex;align-items:center;gap:14px;">'
+                f'<div style="width:48px;height:48px;background:#D97706;border-radius:50%;'
+                f'display:inline-flex;align-items:center;justify-content:center;'
+                f'font-size:20px;color:white;font-weight:600;flex-shrink:0;">{diet_harf}</div>'
+                f'<div style="flex:1;">'
+                f'<p style="font-size:11px;color:#64748B;text-transform:uppercase;'
+                f'letter-spacing:1px;margin:0;font-weight:600;">Diyetisyenim</p>'
+                f'<p style="font-size:18px;color:#1A202C;margin:4px 0 0;font-weight:600;">'
+                f'🍎 {atanmis}</p>'
+                f'<p style="font-size:12px;color:#64748B;margin:2px 0 0;">{diet_email}</p>'
+                f'</div>'
+                f'</div>'
+            )
+            st.markdown(diet_html, unsafe_allow_html=True)
+        else:
+            st.markdown(
+                '<div style="background:#F1F5F9;border:1px solid #A7F3D0;border-radius:14px;'
+                'padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;">'
+                '<span style="font-size:20px;">🍎</span>'
+                '<div>'
+                '<p style="font-size:13px;color:#1A202C;margin:0;font-weight:500;">Henüz diyetisyen atanmamış</p>'
+                '<p style="font-size:11px;color:#64748B;margin:2px 0 0;">Sistem yöneticisi atadığında burada görünür.</p>'
+                '</div>'
+                '</div>',
+                unsafe_allow_html=True
+            )
 
     # Kisisel bilgiler - duzenlenebilir
     with st.expander("✏️ Kişisel Bilgilerimi Düzenle", expanded=False):

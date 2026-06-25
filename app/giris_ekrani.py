@@ -1,36 +1,11 @@
 import streamlit as st
 from app.gunluk_takip import (
-    kullanicilari_getir, kullanici_ekle, kullanici_profili, kullanici_rolu
+    giris_yap, kullanici_olustur_sifreyle, kullanicilari_getir
 )
 
 
-def _rol_ikon(rol):
-    return {
-        "user": "👤",
-        "dietitian": "🩺",
-        "admin": "🛡️",
-    }.get(rol, "👤")
-
-
-def _rol_etiket(rol):
-    return {
-        "user": "Kullanıcı",
-        "dietitian": "Diyetisyen",
-        "admin": "Sistem Yöneticisi",
-    }.get(rol, "Kullanıcı")
-
-
-def _rol_renk(rol):
-    return {
-        "user": "#10B981",
-        "dietitian": "#D97706",
-        "admin": "#2563EB",
-    }.get(rol, "#10B981")
-
-
 def giris_ekrani_goster():
-    # CaloriAI giris ekrani - tum profilleri kart kart goster
-    # Donus: secilen kullanici adi veya None
+    # CaloriAI giris/kayit ekrani
 
     # Logo ve baslik
     st.markdown("""
@@ -44,93 +19,110 @@ def giris_ekrani_goster():
             CaloriAI
         </h1>
         <p style="font-size:15px;color:#64748B;margin:0;">
-            Uygulamaya giriş yapmak için bir profil seç
+            Yapay zeka destekli beslenme asistanın
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    mevcut_kullanicilar = kullanicilari_getir()
+    # Form kapsayicisi - ortalanmis
+    kol1, kol2, kol3 = st.columns([1, 3, 1])
 
-    # Hic profil yoksa zorunlu kayit
-    if not mevcut_kullanicilar:
-        st.markdown("<br>", unsafe_allow_html=True)
-        with st.container(border=True):
-            st.markdown("### 🚀 İlk Profil")
-            st.caption("Sistemde henüz profil yok. İlk profili oluştur.")
+    with kol2:
+        sekme_giris, sekme_kayit = st.tabs(["🔐 Giriş Yap", "✨ Kayıt Ol"])
 
-            ad = st.text_input("Adın", placeholder="örn. Ahmet", key="ilk_ad")
-            email_g = st.text_input("E-posta (opsiyonel)", placeholder="ornek@mail.com", key="ilk_email")
-            hedef_g = st.number_input("Günlük kalori hedefi", min_value=1000, max_value=5000, value=2000, step=100, key="ilk_hedef")
-
-            if st.button("Hesabı Oluştur", type="primary", use_container_width=True):
-                if ad.strip():
-                    kullanici_ekle(
-                        ad.strip(),
-                        gunluk_hedef=hedef_g,
-                        rol="user",
-                        email=email_g if email_g else None
-                    )
-                    st.session_state["aktif_kullanici"] = ad.strip()
-                    st.rerun()
-        return None
-
-    # Profil kartlarini goster
-    for kullanici in mevcut_kullanicilar:
-        profil = kullanici_profili(kullanici)
-        rol = profil.get("rol", "user")
-        ikon = _rol_ikon(rol)
-        etiket = _rol_etiket(rol)
-        renk = _rol_renk(rol)
-        ilk_harf = kullanici[0].upper()
-
-        kol1, kol2, kol3 = st.columns([1, 5, 1])
-        with kol2:
-            # Once gorsel kart, sonra altinda buton
-            kart_html = (
-                f'<div style="background:#FFFFFF;border:1px solid #A7F3D0;border-radius:14px;'
-                f'padding:1rem 1.2rem;margin-bottom:8px;'
-                f'display:flex;align-items:center;gap:14px;">'
-                f'<div style="width:44px;height:44px;background:{renk};border-radius:50%;'
-                f'display:inline-flex;align-items:center;justify-content:center;'
-                f'font-size:18px;color:white;font-weight:600;flex-shrink:0;">{ilk_harf}</div>'
-                f'<div style="flex:1;">'
-                f'<p style="font-size:16px;font-weight:600;color:#1A202C;margin:0;">{kullanici}</p>'
-                f'<p style="font-size:12px;color:#64748B;margin:3px 0 0;">{ikon} {etiket}</p>'
-                f'</div>'
-                f'</div>'
-            )
-            st.markdown(kart_html, unsafe_allow_html=True)
-
-            if st.button(
-                f"Bu profille devam et",
-                key=f"giris_btn_{kullanici}",
-                use_container_width=True,
-                type="primary"
-            ):
-                st.session_state["aktif_kullanici"] = kullanici
-                st.rerun()
+        # === GIRIS SEKMESI ===
+        with sekme_giris:
             st.markdown("<br>", unsafe_allow_html=True)
 
-    # Yeni profil olusturma (her zaman gorunur, en altta)
-    st.markdown("<br>", unsafe_allow_html=True)
-    kol1, kol2, kol3 = st.columns([1, 5, 1])
-    with kol2:
-        with st.expander("➕ Yeni profil oluştur"):
-            yeni_ad = st.text_input("Adın", placeholder="örn. Mehmet", key="yeni_ad_giris")
-            yeni_email = st.text_input("E-posta (opsiyonel)", placeholder="ornek@mail.com", key="yeni_email_giris")
-            yeni_hedef = st.number_input("Günlük kalori hedefi", min_value=1000, max_value=5000, value=2000, step=100, key="yeni_hedef_giris")
+            g_email = st.text_input(
+                "Email",
+                key="giris_email",
+                placeholder="ornek@mail.com",
+            )
+            g_sifre = st.text_input(
+                "Şifre",
+                type="password",
+                key="giris_sifre",
+                placeholder="••••••",
+            )
 
-            st.caption("💡 Yeni profiller varsayılan olarak 'Kullanıcı' rolünde oluşturulur. Diyetisyen veya Admin rolleri için sistem yöneticisine başvurun.")
+            st.markdown("<br>", unsafe_allow_html=True)
 
-            if st.button("Profil Oluştur", type="primary", use_container_width=True, key="yeni_olustur_giris"):
-                if yeni_ad.strip() and yeni_ad.strip() not in mevcut_kullanicilar:
-                    kullanici_ekle(
-                        yeni_ad.strip(),
-                        gunluk_hedef=yeni_hedef,
-                        rol="user",  # Default user
-                        email=yeni_email if yeni_email else None
-                    )
-                    st.session_state["aktif_kullanici"] = yeni_ad.strip()
+            if st.button("Giriş Yap", type="primary", use_container_width=True, key="giris_btn"):
+                basarili, sonuc = giris_yap(g_email, g_sifre)
+                if basarili:
+                    st.session_state["aktif_kullanici"] = sonuc
                     st.rerun()
+                else:
+                    st.error(f"❌ {sonuc}")
+
+            # Hic kullanici yoksa hatirlatma
+            if not kullanicilari_getir():
+                st.info("ℹ️ Henüz hiç kullanıcı kaydı yok. Önce 'Kayıt Ol' sekmesinden hesap oluştur.")
+
+        # KAYIT SEKMESI
+        with sekme_kayit:
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            k_ad = st.text_input(
+                "Ad Soyad",
+                key="kayit_ad",
+                placeholder="örn. Ahmet",
+            )
+            k_email = st.text_input(
+                "Email",
+                key="kayit_email",
+                placeholder="ornek@mail.com",
+            )
+
+            ks1, ks2 = st.columns(2)
+            with ks1:
+                k_sifre = st.text_input(
+                    "Şifre (en az 4 karakter)",
+                    type="password",
+                    key="kayit_sifre",
+                    placeholder="••••••",
+                )
+            with ks2:
+                k_sifre2 = st.text_input(
+                    "Şifre tekrar",
+                    type="password",
+                    key="kayit_sifre2",
+                    placeholder="••••••",
+                )
+
+            k_hedef = st.number_input(
+                "Günlük kalori hedefi (kcal)",
+                min_value=1000,
+                max_value=5000,
+                value=2000,
+                step=100,
+                key="kayit_hedef",
+                help="Yetişkin ortalama: 2000 kcal. Sonradan profil sayfasından değiştirebilirsin.",
+            )
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            if st.button("Hesap Oluştur", type="primary", use_container_width=True, key="kayit_btn"):
+                if not k_ad.strip():
+                    st.error("❌ Ad boş olamaz")
+                elif not k_sifre or len(k_sifre) < 4:
+                    st.error("❌ Şifre en az 4 karakter olmalı")
+                elif k_sifre != k_sifre2:
+                    st.error("❌ Şifreler eşleşmiyor")
+                else:
+                    basarili, hata = kullanici_olustur_sifreyle(
+                        ad=k_ad,
+                        email=k_email,
+                        sifre=k_sifre,
+                        gunluk_hedef=k_hedef,
+                        rol="user"
+                    )
+                    if basarili:
+                        st.success(f"✅ Hesap oluşturuldu! Şimdi giriş yapabilirsin.")
+                        st.session_state["aktif_kullanici"] = k_ad.strip()
+                        st.rerun()
+                    else:
+                        st.error(f"❌ {hata}")
 
     return None

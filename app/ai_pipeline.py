@@ -1,4 +1,3 @@
-import json
 import tempfile
 import os
 import numpy as np
@@ -14,7 +13,7 @@ except ImportError:
 # Custom modelin tanidigi 4 sinif
 CUSTOM_SINIFLAR = ["baklava", "kebap", "lahmacun", "pirinc_pilavi"]
  
-COCO_REFERANS = ["fork", "spoon", "knife", "bowl", "cup", "dining table"]
+COCO_REFERANS = ["fork", "spoon", "knife", "bowl", "cup"]
  
 # Confidence esik degerleri
 CUSTOM_CONF_ESIK = 0.40
@@ -75,7 +74,6 @@ def goruntu_analiz_et(fotograf_verisi):
         }
         
         # 1) Custom model - yemek tespiti icin
-        otomatik_bulundu = False
         if custom is not None:
             sonuclar = custom(tmp.name, verbose=False, conf=CUSTOM_CONF_ESIK)
             
@@ -113,7 +111,6 @@ def goruntu_analiz_et(fotograf_verisi):
                 sonuc["tespitler"] = custom_tespitler
                 if len(maskeler) > 0:
                     sonuc["maskeler"] = maskeler
-                otomatik_bulundu = True
         
         # 2) COCO modeli - hem referans nesne hem fallback yemek tespiti
         if coco is not None:
@@ -155,35 +152,3 @@ def goruntu_analiz_et(fotograf_verisi):
             "kullanilan_model": None,
             "maskeler": None,
         }
- 
-def maske_pixel_alani(maskeler, sinif_index=None):
-    # Yemek maskelerinin toplam piksel alanini hesaplar
-    # Heuristic engine bunu kullanir (gramaj hesabi icin)
-    if maskeler is None or len(maskeler) == 0:
-        return 0
-    
-    if sinif_index is not None and sinif_index < len(maskeler):
-        return int(maskeler[sinif_index].sum())
-    
-    # Tum maskelerin toplami
-    toplam = 0
-    for m in maskeler:
-        toplam += int(m.sum())
-    return toplam
- 
-def veritabani_yukle():
-    db_yolu = Path(__file__).parent.parent / "data" / "food_db.json"
-    with open(db_yolu, "r", encoding="utf-8") as f:
-        return json.load(f)
- 
-def kalori_hesapla(yemek_adi, gram, db):
-    if yemek_adi in db["turkish_classes"]:
-        y = db["turkish_classes"][yemek_adi]
-        return {
-            "kalori": (y["calories_per_100g"] * gram) / 100,
-            "protein": (y["protein_per_100g"] * gram) / 100,
-            "yag": (y["fat_per_100g"] * gram) / 100,
-            "karb": (y["carbs_per_100g"] * gram) / 100,
-            "bilgi": y,
-        }
-    return None

@@ -1,0 +1,234 @@
+[
+  {
+    "soru": "Baklava kaç kalori?",
+    "cevap": "100 gramda yaklaşık 480 kcal bulunur. Baklava yoğun yağ ve şeker içerdiğinden kalori değeri oldukça yüksektir. Standart bir dilim (40-50 g) yaklaşık 190-240 kcal'dir."
+  },
+  {
+    "soru": "Lahmacun kaç kalori?",
+    "cevap": "100 gramda yaklaşık 250 kcal bulunur. Tek bir lahmacun (yaklaşık 150-170 g) 375-425 kcal civarındadır. Limon sıkılıp dürüm yapılırsa ekstra kalori gelir."
+  },
+  {
+    "soru": "Kebap kaç kalori?",
+    "cevap": "100 gramda yaklaşık 290 kcal bulunur. Şiş kebap protein açısından zengin, yağ miktarı nispeten düşüktür. Porsiyon büyüklüğüne ve etin türüne göre değişir."
+  },
+  {
+    "soru": "Pirinç pilavı kaç kalori?",
+    "cevap": "100 gramda yaklaşık 150 kcal bulunur. Pişmiş pirinç pilavı orta glisemik indekse sahiptir. Bir porsiyon (200 g) yaklaşık 300 kcal yapar."
+  },
+  {
+    "soru": "Baklava glisemik indeksi nedir?",
+    "cevap": "Baklavanın glisemik indeksi yaklaşık 65 civarındadır, orta-yüksek aralıkta değerlendirilir. Yoğun şeker ve irmik içeriği kan şekerini hızlı yükseltebilir. Diyabetik bireyler için dikkatli tüketilmelidir."
+  },
+  {
+    "soru": "Lahmacun glisemik indeksi nedir?",
+    "cevap": "Lahmacunun glisemik indeksi yaklaşık 70 civarındadır, bu yüksek kategorisine girer. İnce hamurunun hızlı sindirilmesi kan şekerini çabuk yükseltebilir. Yanında bol yeşillik tüketmek etkiyi dengelemeye yardımcı olur."
+  },
+  {
+    "soru": "Pirinç pilavı glisemik indeksi kaç?",
+    "cevap": "Pirinç pilavının glisemik indeksi yaklaşık 73'tür, yüksek kategorisindedir. Bulgur veya kepekli makarna gibi alternatifler daha düşük glisemik indekse sahiptir. Yanına protein eklemek kan şekerinin daha yavaş yükselmesini sağlar."
+  },
+  {
+    "soru": "Glisemik indeks ne demek?",
+    "cevap": "Glisemik indeks (GI), bir besin maddesinin kan şekerini ne kadar hızlı yükselttiğini gösteren bir ölçüdür. 0-55 arası düşük, 56-69 orta, 70 ve üzeri yüksek kabul edilir. Düşük GI'li besinler kan şekerini daha yavaş ve dengeli yükseltir."
+  },
+  {
+    "soru": "Glisemik yük nedir?",
+    "cevap": "Glisemik yük, hem glisemik indeksi hem de porsiyondaki karbonhidrat miktarını birlikte değerlendirir. Formülü: GL = (GI × karbonhidrat gramı) / 100. 10 ve altı düşük, 11-19 orta, 20 ve üzeri yüksek kabul edilir."
+  },
+  {
+    "soru": "Günde kaç kalori almalıyım?",
+    "cevap": "Ortalama yetişkin için 2000 kcal/gün genel referans alınır ancak bu yaş, cinsiyet, boy, kilo ve aktivite düzeyine göre değişir. Profilinde kalori hedefini belirlemen en doğrusu. Kesin hesap için bir diyetisyene danışmanı öneririm."
+  },
+  {
+    "soru": "Kalori açığı nedir?",
+    "cevap": "Günlük harcadığından daha az kalori almak anlamına gelir. Kilo vermek için genellikle günde 300-500 kcal açık oluşturulması önerilir. Çok fazla açık kas kaybına ve metabolizma yavaşlamasına yol açabilir."
+  },
+  {
+    "soru": "Kilo vermek için ne yapmalıyım?",
+    "cevap": "Kalori açığı oluşturmak temel prensiptir. İşlenmiş gıdaları azalt, protein alımını artır, sebze ve lif tüketimini yükselt. Düzenli egzersiz ve yeterli uyku da kilo yönetiminde kritik rol oynar. Hedeflerine göre kişisel bir plan için diyetisyene danışmanı öneririm."
+  },
+  {
+    "soru": "Protein neden önemli?",
+    "cevap": "Protein kas onarımı ve büyümesi için temel yapı taşıdır. Aynı zamanda tok tutma etkisi yüksektir, yani daha uzun süre aç hissetmezsin. Günlük protein ihtiyacı genellikle vücut ağırlığının kilogramı başına 1.2-2.0 g olarak önerilir."
+  },
+  {
+    "soru": "Karbonhidrat zararlı mı?",
+    "cevap": "Karbonhidrat tek başına zararlı değildir; kalitesi ve miktarı önemlidir. Tam tahıl, sebze ve meyveden gelen kompleks karbonhidratlar tercih edilmeli, rafine şeker ve beyaz un gibi basit karbonhidratlar sınırlandırılmalıdır. Dengeli bir diyette karbonhidratsız yaşamak sürdürülebilir değildir."
+  },
+  {
+    "soru": "Sağlıklı yağ kaynakları nelerdir?",
+    "cevap": "Zeytinyağı, avokado, fındık, badem ve ceviz gibi besinler sağlıklı doymamış yağ içerir. Yağlı balıklar (somon, uskumru) omega-3 açısından zengindir. Trans yağlar ve aşırı doymuş yağ tüketiminden kaçınılmalıdır."
+  },
+  {
+    "soru": "Sabah kahvaltısı önemli mi?",
+    "cevap": "Sabah kahvaltısı gün boyunca enerji dengesini sağlamaya yardımcı olabilir. Protein ve lif içeren bir kahvaltı öğle saatlerine kadar tok tutabilir. Ancak bazı kişiler için intermittent fasting gibi kahvaltısız beslenme düzenleri de işe yarayabilir. Önemli olan toplam günlük kalori ve besin dengesidir."
+  },
+  {
+    "soru": "Akşam geç saatte yemek zararlı mı?",
+    "cevap": "Gece geç saatte yemek yemenin zararlı olup olmadığı kişiden kişiye değişir. Asıl önemli olan günlük toplam kalori ve besin kalitesidir. Metabolizma günün saatine göre hafif farklılık gösterse de etki abartıldığı kadar büyük değildir."
+  },
+  {
+    "soru": "Su içmek kilo vermeye yardımcı olur mu?",
+    "cevap": "Yeterli su içmek metabolizmayı destekler ve bazen açlık hissi ile karıştırılan susuzluğu önler. Yemekten önce su içmek tokluk hissini artırabilir. Günde 1.5-2.5 litre su tüketimi genel olarak önerilir, ancak aktivite düzeyi ve iklime göre değişir."
+  },
+  {
+    "soru": "Intermittent fasting nedir?",
+    "cevap": "Aralıklı oruç olarak da bilinen bu yöntemde belirli saatler yemek yenilir, geri kalanında oruç tutulur. En yaygın form 16:8'dir (16 saat oruç, 8 saatlik yemek penceresi). Kalori kısıtlamasına yardımcı olabilir ama herkes için uygun değildir, kronik hastalığı olanlar doktora danışmalıdır."
+  },
+  {
+    "soru": "Baklava yerine ne yiyebilirim tatlı olarak?",
+    "cevap": "Daha düşük kalorili tatlı alternatifleri arasında meyve salatası, yoğurtlu meyve, az şekerli muhallebi veya sütlaç sayılabilir. Meyveli kesilmiş süt de iyi bir seçenek. Baklava gibi yoğun şekerli tatlılar yerine bunları tercih etmek kalori ve şeker alımını belirgin şekilde düşürür."
+  },
+  {
+    "soru": "Diyet yaparken aç hissediyorum ne yapmalıyım?",
+    "cevap": "Öğünlerde daha fazla protein ve lif tüket, bunlar uzun süre tok tutar. Sebzeler hacim açısından kalorisine göre çok doldurucudur. Yeterli su iç, bazen susuzluk açlık gibi hissettiriyor. Çok az kalori almak yerine makul bir açık oluştur."
+  },
+  {
+    "soru": "Hangi besinler kilo aldırır?",
+    "cevap": "Tek başına kilo aldıran bir yiyecek yoktur; aşırı kalori alımı kilo artışına neden olur. Ancak fast food, şekerli içecekler, işlenmiş atıştırmalıklar ve hamur işleri genellikle yüksek kalori ve düşük tokluk verdiği için kolay aşılan besinlerdir."
+  },
+  {
+    "soru": "Kebap sağlıklı mı?",
+    "cevap": "Şiş kebap protein açısından zengin ve nispeten az işlenmiş bir et ürünüdür. Yanında salata veya sebze ile tüketildiğinde dengeli bir öğün oluşturabilir. Kalorisi orta seviyededir (100 g ≈ 290 kcal). Aşırı pişmiş veya yanık kısımlardan kaçınmak sağlık açısından önerilir."
+  },
+  {
+    "soru": "Lahmacun sağlıklı mı?",
+    "cevap": "Lahmacun, ince hamuru ve kıymalı iç harcıyla orta kalorili bir yiyecektir (100 g ≈ 250 kcal). Yanında limon, maydanoz ve salata eklendiğinde besin değeri artar. Glisemik indeksi yüksek olduğundan diyabetik bireylerin dikkatli tüketmesi önerilir."
+  },
+  {
+    "soru": "Türk mutfağında sağlıklı ne yiyebilirim?",
+    "cevap": "Mercimek çorbası, zeytinyağlı sebze yemekleri, ızgara balık, bulgur pilavı ve yoğurt Türk mutfağının besin değeri yüksek seçenekleridir. Zeytinyağlı yapraklar ve kuru baklagiller de dengeli beslenme için idealdir. Şerbetli tatlılar ve kızartmalar sınırlandırılmalıdır."
+  },
+  {
+    "soru": "Yemek sonrası ne zaman spor yapmalıyım?",
+    "cevap": "Büyük öğünlerden sonra en az 1.5-2 saat beklemek önerilir. Hafif bir atıştırmalıktan sonra 30-45 dakika yeterli olabilir. Mideyi tam olarak doldurup hemen egzersiz yapmak sindirim sorunlarına yol açabilir."
+  },
+  {
+    "soru": "Koşu yaparken kaç kalori yakarım?",
+    "cevap": "Yakılan kalori kişinin kilosuna ve koşu temposuna göre değişir. Genel kural olarak orta tempolu koşuda dakikada yaklaşık 8-12 kcal/kg harcanır. 70 kg bir kişi 30 dakika koşarsa yaklaşık 280-350 kcal yakar. Kesin değer için spor saati veya kalori hesaplayıcı kullanabilirsin."
+  },
+  {
+    "soru": "Vegan beslenirken protein nereden alırım?",
+    "cevap": "Mercimek, nohut, fasulye, tofu, tempeh, edamame ve kinoa bitkisel protein açısından zengin kaynaklardır. Kuruyemişler ve tohumlar da protein içerir. Yeterli amino asit profili için çeşitli bitki proteini kaynaklarını birleştirmek önemlidir."
+  },
+  {
+    "soru": "Çikolata yiyebilir miyim diyet yaparken?",
+    "cevap": "Evet, ölçülü tüketimde çikolata diyete dahil edilebilir. Kakao oranı yüksek (%70+) bitter çikolata, sütlü veya beyaz çikolataya göre daha az şeker içerir ve daha tok tutar. 15-20 gram gibi küçük bir porsiyon hem tatmin edici olur hem de kaloriyi aşmaz."
+  },
+  {
+    "soru": "Meyve yemek kilo aldırır mı?",
+    "cevap": "Meyve doğal şeker içerse de lif, su ve mikro besinler bakımından zengindir. Normal miktarlarda meyve tüketmek sağlıklı bir diyetin parçasıdır. Ancak meyve suyu formunda tüketildiğinde lif kaybedilir ve kalori yoğunluğu artar. Günde 2-3 porsiyon taze meyve makul bir hedef."
+  },
+  {
+    "soru": "Yoğurt faydalı mı?",
+    "cevap": "Evet, yoğurt probiyotik, protein ve kalsiyum açısından zengin bir besindir. Bağırsak sağlığına olumlu katkısı vardır. Sade, şekersiz yoğurt tercih edilmeli; meyveli ve tatlandırılmış çeşitlerinin şeker içeriği yüksek olabilir."
+  },
+  {
+    "soru": "B vitamini hangi besinlerde bulunur?",
+    "cevap": "B vitaminleri et, tavuk, balık, yumurta ve süt ürünlerinde bol miktarda bulunur. B12 özellikle hayvansal ürünlerde yoğundur; vegan bireyler takviye almalıdır. Tam tahıllar, baklagiller ve yapraklı yeşiller de çeşitli B vitaminleri sağlar."
+  },
+  {
+    "soru": "Demir eksikliğini besinle nasıl gideririm?",
+    "cevap": "Kırmızı et, tavuk ciğeri, ıspanak, mercimek, nohut ve kuru kayısı iyi demir kaynaklarıdır. C vitamini ile birlikte tüketmek demir emilimini artırır; örneğin limonlu mercimek çorbası iyi bir kombinasyondur. Çay ve kahveyi yemekle birlikte içmemek de emilimi destekler."
+  },
+  {
+    "soru": "Kalsiyum hangi besinlerde bulunur?",
+    "cevap": "Süt, yoğurt ve peynir en iyi kalsiyum kaynaklarıdır. Laktoz intoleransı varsa brokoli, badem, ıspanak ve zenginleştirilmiş bitkisel sütler alternatif olabilir. D vitamini kalsiyum emilimini artırır, bu nedenle ikisini birlikte düşünmek önemlidir."
+  },
+  {
+    "soru": "Omega 3 nedir, nerede bulunur?",
+    "cevap": "Omega-3 kalp ve beyin sağlığı için önemli bir doymamış yağ asididir. En iyi kaynaklar somon, uskumru, sardalya gibi yağlı balıklardır. Bitkisel kaynaklarda ise ceviz, keten tohumu ve chia tohumu öne çıkar. Haftada 2 porsiyon yağlı balık tüketimi önerilir."
+  },
+  {
+    "soru": "Şeker yerine ne kullanabilirim?",
+    "cevap": "Bal, hurma şekeri veya akçaağaç şurubu doğal alternatifler olsa da kalori açısından benzer değerdedir. Stevia ve eritritol sıfır kaloriye yakın seçenekler arasındadır. Yapay tatlandırıcılar kalorisi düşürür ama aşırı kullanımdan kaçınmak tavsiye edilir."
+  },
+  {
+    "soru": "Hazır gıdaların zararı nedir?",
+    "cevap": "Hazır ve işlenmiş gıdalar genellikle yüksek tuz, şeker, trans yağ ve katkı maddesi içerir. Düzenli tüketimi obezite, diyabet ve kalp hastalığı riskini artırabilir. Besin değeri taze gıdalara kıyasla düşüktür. Sınırlı tüketim ve etiket okuma alışkanlığı edinmek faydalı olur."
+  },
+  {
+    "soru": "Öğün atlamak zararlı mı?",
+    "cevap": "Sık öğün atlamak kan şekerini düşürebilir, enerji dalgalanmalarına yol açabilir ve bir sonraki öğünde aşırı yemeye neden olabilir. Ancak bazı kişilerde aralıklı oruç çerçevesinde öğün atlamak işe yarayabilir. Önemli olan dengeli ve yeterli beslenmeyi sürdürmek."
+  },
+  {
+    "soru": "Spordan önce ne yemeliyim?",
+    "cevap": "Antrenmanın 1-2 saat öncesinde karbonhidrat ve hafif protein içeren bir öğün iyi bir seçimdir. Muz + yoğurt, yulaf ezmesi + fıstık ezmesi veya tam tahıllı ekmek + peynir örnekler arasındadır. Çok ağır yiyeceklerden kaçınmak ve yeterli su içmek performansı destekler."
+  },
+  {
+    "soru": "Spordan sonra ne yemeliyim?",
+    "cevap": "Antrenman sonrası 30-60 dakika içinde protein ve karbonhidrat birlikte alınması kas onarımını hızlandırır. Yumurta + ekmek, tavuk + pilav veya protein shake + meyve pratik seçeneklerdir. Bu 'anabolik pencere' özellikle yoğun güç antrenmanlarından sonra önemlidir."
+  },
+  {
+    "soru": "Yüksek tansiyonda ne yememeliyim?",
+    "cevap": "Yüksek tuz içeren besinler, turşu, salamura, fast food ve işlenmiş et ürünleri tansiyonu yükseltebilir. Alkol ve kafein de dikkatli tüketilmesi gereken ürünler arasındadır. Potasyum açısından zengin muz, ıspanak ve domates tansiyonu dengelemeye yardımcı olabilir. Bu konuda doktorunun tavsiyesine uymak önemli."
+  },
+  {
+    "soru": "Diyabetik biri ne yemeli?",
+    "cevap": "Glisemik indeksi düşük besinler tercih edilmeli: sebzeler, baklagiller, tam tahıllar. Beyaz ekmek, beyaz pirinç ve şekerli içeceklerden kaçınılmalı. Porsiyonlar küçük tutulmalı ve öğünler düzenli aralıklarla yapılmalıdır. Bu, bir öneri niteliğinde; diyabetinizin yönetimi için mutlaka doktor ve diyetisyen takibinde olun."
+  },
+  {
+    "soru": "Kolesterol düşürmek için ne yemeliyim?",
+    "cevap": "Çözünür lif içeren yulaf, arpa, elma ve baklagiller LDL kolesterolü düşürmeye yardımcı olur. Zeytinyağı, avokado ve ceviz gibi sağlıklı yağlar faydalıdır. Kırmızı et, tam yağlı süt ürünleri ve trans yağlardan kaçınılmalıdır. Sağlıklı yaşam tarzı değişiklikleri için doktorunla çalışmak önemli."
+  },
+  {
+    "soru": "Hangi besinler bağışıklığı güçlendirir?",
+    "cevap": "C vitamini (portakal, kivi, biber), D vitamini (yağlı balık, yumurta sarısı, güneş ışığı), çinko (et, kabak çekirdeği, baklagiller) ve probiyotikler (yoğurt, kefir) bağışıklık sistemini destekleyen önemli besin öğeleridir. Dengeli beslenme ve yeterli uyku da kritik rol oynar."
+  },
+  {
+    "soru": "Günde kaç öğün yemek yemeli?",
+    "cevap": "Bilimsel görüş öğün sayısı konusunda kesin bir rakam vermez. Kimi 3 ana öğün, kimi 5-6 küçük öğün tercih eder. Önemli olan günlük toplam kalori ve besin dengesini tutturmak. Kan şekeri dalgalanması yaşayanlar için daha sık ve küçük öğünler daha uygun olabilir."
+  },
+  {
+    "soru": "Zeytinyağı mı tereyağı mı daha sağlıklı?",
+    "cevap": "Zeytinyağı, doymamış yağ asitleri ve antioksidanlar (özellikle oleik asit ve polifenoller) açısından zengindir ve kalp sağlığı için faydalıdır. Tereyağı doymuş yağ içerir ve sınırlı tüketilmesi önerilir. Pişirme için zeytinyağını tercih etmek daha sağlıklı bir seçimdir."
+  },
+  {
+    "soru": "Mercimek çorbası faydalı mı?",
+    "cevap": "Evet, mercimek çorbası protein, lif ve demir açısından oldukça zengindir. Glisemik indeksi nispeten düşüktür ve uzun süre tok tutar. Vegan ve vejetaryen beslenmede de iyi bir protein kaynağıdır. Tuz miktarına dikkat ederek tüketilmesi önerilir."
+  },
+  {
+    "soru": "Alkol kaloriyle nasıl etkileşiyor?",
+    "cevap": "Alkol gram başına 7 kcal sağlar, karbonhidrat ve proteinden fazla (4 kcal/g), yağdan az (9 kcal/g). Ayrıca vücut alkolü öncelikli yakarken yağ yakımını yavaşlatır. Karışık içkiler ve mezeyle birlikte tüketildiğinde kalori hızla artabilir."
+  },
+  {
+    "soru": "Kefir faydalı mı?",
+    "cevap": "Kefir, yoğurda benzer ama daha fazla probiyotik suş içeren fermente bir süt ürünüdür. Bağırsak mikrobiyotasına olumlu etkisi olduğu gösterilmiştir. Laktoz intoleransı olanlarda yoğurttan daha kolay tolere edilebilir. 150-200 mL günlük tüketim makul bir hedef."
+  },
+  {
+    "soru": "Yemekten kaç saat önce uyumalıyım?",
+    "cevap": "Genel öneri büyük öğünden 2-3 saat sonra yatmaktır. Yatar pozisyonda mide içeriğinin yemek borusuna kaçması (reflü) riskini azaltır ve sindirimi destekler. Hafif bir atıştırmalık daha kısa beklemeyle tolere edilebilir."
+  },
+  {
+    "soru": "Hangi meyve en az kalori içerir?",
+    "cevap": "Çilek, karpuz, ahududu ve kavun en düşük kalorili meyveler arasındadır. Çilek yaklaşık 32 kcal/100 g, karpuz 30 kcal/100 g ile öne çıkar. Muz, üzüm ve kuru meyveler daha yüksek kalori içerir."
+  },
+  {
+    "soru": "Tok tutan besinler nelerdir?",
+    "cevap": "Protein ve lif en yüksek tokluk etkisi sağlayan besin öğeleridir. Yumurta, tavuk, baklagiller, yulaf, elma ve brokoli bu açıdan öne çıkar. Su içeriği yüksek besinler (salatalık, domates) de hacim sağlayarak tok tutmaya yardımcı olur."
+  },
+  {
+    "soru": "Diyet soda içmek zararlı mı?",
+    "cevap": "Diyet soda kalorisi olmasa da içerdiği yapay tatlandırıcılar hakkında tartışmalı bulgular mevcuttur. Bazı çalışmalar tatlı bağımlılığını artırabileceğini öne sürmektedir. Su, ıhlamur veya meyve suyu eklenmiş maden suyu daha iyi alternatiflerdir. Seyrek tüketimde büyük zarar beklenmez."
+  },
+  {
+    "soru": "Pilates veya yoga kaç kalori yakar?",
+    "cevap": "Pilates 1 saatte kişinin kilosuna ve yoğunluğa bağlı olarak yaklaşık 170-250 kcal yakar. Yoga ise türüne göre 150-400 kcal arasında değişir; güç yogası daha fazla yakar. Koşu veya yüzme gibi kardio egzersizlere kıyasla daha düşük kalori harcamasıdır."
+  },
+  {
+    "soru": "Vücut kitle indeksi nedir nasıl hesaplanır?",
+    "cevap": "VKİ (BMI) = kilo (kg) / boy² (m²) formülüyle hesaplanır. 18.5 altı zayıf, 18.5-24.9 normal, 25-29.9 fazla kilolu, 30 ve üzeri obez kabul edilir. Bu değer genel bir göstergedir; kas kütlesi yüksek kişilerde yanıltıcı olabilir."
+  },
+  {
+    "soru": "Beslenmeyle ilgili konular dışında bir soru sorum var",
+    "cevap": "Ben yalnızca beslenme, kalori takibi ve sağlıklı yaşam konularında yardımcı olabilen bir yapay zeka asistanıyım. Bu konudaki sorularını memnuniyetle cevaplamaya çalışırım."
+  },
+  {
+    "soru": "Hava durumu nasıl?",
+    "cevap": "Bu konuda yardımcı olamam, ben sadece beslenme ve kalori takibi konularında destek veriyorum. Beslenme veya diyet hakkında sormak istediğin bir şey var mı?"
+  },
+  {
+    "soru": "Bana şiir yaz",
+    "cevap": "Bu konuda yardımcı olamam, beslenme ve sağlıklı yaşam dışındaki konular uzmanlık alanımın dışında. Kalori hesabı, besin değerleri veya öğün önerisi gibi konularda sormak istediğin bir şey var mı?"
+  }
+]

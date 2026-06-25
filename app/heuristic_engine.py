@@ -1,23 +1,22 @@
-import cv2
-import numpy as np
-from pathlib import Path
-
 # referans nesnelerin gerçek boyutları (cm)
 REFERANS_BOYUTLAR = {
     "fork": 20.0,
     "spoon": 17.0,
     "knife": 22.0,
+    "bowl": 15.0,
+    "cup": 8.0,
 }
 
 TABAK_CAPI_CM = 26.0
 
 def piksel_basina_cm(referans_tespit, goruntu_genisligi):
     if referans_tespit is None:
-        # referans yoksa tabak şablonuna göre tahmin
-        return TABAK_CAPI_CM / goruntu_genisligi
+        # Tabak bulunamadıysa, tabağın veya yemeğin fotoğrafın %60'ını kapladığını varsayalım
+        varsayilan_piksel_uzunluk = goruntu_genisligi * 0.6
+        return TABAK_CAPI_CM / varsayilan_piksel_uzunluk
 
-    sinif = referans_tespit["sinif_adi"]
-    bbox = referans_tespit["bbox"]
+    sinif = referans_tespit.get("sinif") 
+    bbox = referans_tespit.get("bbox", [0, 0, 0, 0])
 
     # bbox uzunluğu (en uzun kenar)
     genislik = bbox[2] - bbox[0]
@@ -28,15 +27,14 @@ def piksel_basina_cm(referans_tespit, goruntu_genisligi):
         gercek_uzunluk = REFERANS_BOYUTLAR[sinif]
         return gercek_uzunluk / piksel_uzunluk
 
-    return TABAK_CAPI_CM / goruntu_genisligi
+    # Nesne bulundu ama listemizde yoksa yine %60 varsayımına dön
+    varsayilan_piksel_uzunluk = goruntu_genisligi * 0.6
+    return TABAK_CAPI_CM / varsayilan_piksel_uzunluk
 
-def gramaj_hesapla(yemek_adi, porsiyon_carpani, referans_tespit,
-                   goruntu_genisligi, db):
+def gramaj_hesapla(yemek_adi, porsiyon_carpani, referans_tespit,goruntu_genisligi, db):
     # ortalama porsiyon ağırlığını al
     if yemek_adi in db["turkish_classes"]:
         ort_gram = db["turkish_classes"][yemek_adi]["avg_portion_g"]
-    elif yemek_adi in db["coco_fallback_classes"]:
-        ort_gram = db["coco_fallback_classes"][yemek_adi]["avg_portion_g"]
     else:
         ort_gram = 150
 
@@ -45,7 +43,7 @@ def gramaj_hesapla(yemek_adi, porsiyon_carpani, referans_tespit,
 
 def glisemik_yuk_hesapla(gi, karb_gram):
     # WHO/FAO standardı: GL = (GI x karb) / 100
-    # GI 0 ise (et, balik vs) GL de 0
+    # GI 0 ise GL de 0
     if gi == 0 or karb_gram == 0:
         return 0.0
     return (gi * karb_gram) / 100
