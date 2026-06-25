@@ -1,6 +1,6 @@
-# 🍽️ DiyetAI – Yapay Zeka Destekli Diyetisyen Takip Platformu
+# 🍽️ DietMetrics – Yapay Zeka Destekli Diyetisyen Takip Platformu
 
-**Prompt Engineers** ekibi tarafından geliştirilen DiyetAI; diyetisyen-danışan ilişkisini dijital ortama taşıyan, yapay zeka (Görüntü İşleme & Yerel LLM) destekli **B2B2C** odaklı bir uzaktan beslenme takip platformudur. 
+**Prompt Engineers** ekibi tarafından geliştirilen DietMetrics; diyetisyen-danışan ilişkisini dijital ortama taşıyan, yapay zeka (Görüntü İşleme & Yerel LLM) destekli **B2B2C** odaklı bir uzaktan beslenme takip platformudur. 
 
 Tabağınızın fotoğrafını çekin, gerisini yapay zekaya bırakın. Sistem, YOLO mimarisi ile tabağınızdaki yemeği tanır, referans nesneler üzerinden porsiyon tahmini yapar ve günlüğünüze işler. Ayrıca dolabınızdaki malzemelere göre **RAG (Retrieval-Augmented Generation)** kullanarak size özel tarifler üretir. 
 Danışanların manuel kalori hesabı yapma derdini ortadan kaldırır, diyetisyenlere ise klinik seansları dışında danışanlarının gelişimini anlık izleme imkanı sunar. Sistem tamamen **çevrimdışı (offline)** çalışacak şekilde tasarlanmış olup, veri gizliliğini maksimum seviyede tutar.
