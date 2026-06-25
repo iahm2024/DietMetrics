@@ -63,8 +63,8 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 
 Depoyu klonlayın ve bağımlılıkları yükleyin:
 ```bash
-git clone [https://github.com/kullaniciadin/CaloriAI.git](https://github.com/kullaniciadin/CaloriAI.git)
-cd CaloriAI
+git clone https://github.com/iahm2024/DietMetrics.git
+cd DietMetrics
 pip install -r requirements.txt
 ```
 
@@ -79,7 +79,7 @@ Projeyi başlatın:
 streamlit run app/main.py
 ```
 
-## 👥 Ekip: ÖnderGenç
+## 👥 Ekip: Prompt Engineers
 
 Proje geliştirme sürecindeki görev dağılımımız:
 
