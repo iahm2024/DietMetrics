@@ -171,8 +171,15 @@ KULLANICININ AZ ÖNCE ANALİZ ETTİĞİ YEMEK:
     return sistem_promptu
  
  
-def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None,
-                 kullanici_profili=None, gunluk_durum=None):
+def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None, kullanici_profili=None, gunluk_durum=None):
+    
+    if not _beslenme_konusu_mu(kullanici_mesaji):
+        return (
+            "Ben sadece beslenme, kalori takibi ve sağlıklı yaşam "
+            "konularında yardımcı olabiliyorum. Bu konularda sormak "
+            "istediğin bir şey var mı?"
+        )
+    
     sistem_promptu = sistem_promptu_hazirla(
         yemek_bilgisi=yemek_bilgisi,
         kullanici_profili=kullanici_profili,
@@ -206,13 +213,6 @@ def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None,
         f"Kullanıcı: {kullanici_mesaji}\n"
         f"Asistan (Türkçe):"
     )
-
-    if not _beslenme_konusu_mu(kullanici_mesaji):
-        return (
-            "Ben sadece beslenme, kalori takibi ve sağlıklı yaşam "
-            "konularında yardımcı olabiliyorum. Bu konularda sormak "
-            "istediğin bir şey var mı?"
-        )
  
     try:
         response = requests.post(
@@ -235,7 +235,7 @@ def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None,
             if not _cevap_kaliteli_mi(cevap):
                 return FALLBACK_CEVAP
 
-            if _cevap_kaliteli_mi(cevap) and _tavsiye_ekle_mi(kullanici_mesaji):
+            if _tavsiye_ekle_mi(kullanici_mesaji):
                 cevap += "\n\n*Kişisel sağlık kararları için diyetisyenine veya doktora danışmanı öneririm.*"
                 return cevap
 
@@ -244,7 +244,7 @@ def mesaj_gonder(kullanici_mesaji, sohbet_gecmisi=None, yemek_bilgisi=None,
             return "Bağlantı hatası, tekrar dene."
  
     except requests.exceptions.ConnectionError:
-        return "Ollama bağlantısı kurulamadı.
+        return "Ollama bağlantısı kurulamadı."
     except requests.exceptions.Timeout:
         return "Cevap geç geldi, tekrar dene."
     except Exception as e:

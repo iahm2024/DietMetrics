@@ -166,9 +166,9 @@ st.markdown("""
 st.divider()
  
 # Sayfa Yönlendirme
-# Default sayfa: Dashboard
+# Default sayfa: Anasayfa
 if "aktif_sayfa" not in st.session_state:
-    st.session_state["aktif_sayfa"] = "Dashboard"
+    st.session_state["aktif_sayfa"] = "Anasayfa"
 
 # Ust navigasyon barı - sayfa secim butonlari
 def _nav_button(label, ikon, sayfa_adi):
@@ -182,7 +182,7 @@ def _nav_button(label, ikon, sayfa_adi):
 nav_sayfalar = []
 if aktif_rol == "user":
     nav_sayfalar = [
-        ("Dashboard", "📊", "Dashboard"),
+        ("Anasayfa", "📊", "Anasayfa"),
         ("Analiz", "📸", "Analiz"),
         ("Günlüğüm", "🗓️", "Gunlugum"),
         ("Tarif", "🥘", "Tarif"),
@@ -198,7 +198,7 @@ elif aktif_rol == "dietitian":
 elif aktif_rol == "admin":
     nav_sayfalar = [
         ("Yönetim", "🛡️", "Admin"),
-        ("Dashboard", "📊", "Dashboard"),
+        ("Anasayfa", "📊", "Anasayfa"),
         ("Analiz", "📸", "Analiz"),
         ("Günlüğüm", "🗓️", "Gunlugum"),
         ("Tarif", "🥘", "Tarif"),
@@ -209,7 +209,7 @@ elif aktif_rol == "admin":
 # Mevcut sayfa rol icin gecerli mi kontrol et
 sayfa_anahtari = [s[2] for s in nav_sayfalar]
 if st.session_state["aktif_sayfa"] not in sayfa_anahtari:
-    st.session_state["aktif_sayfa"] = nav_sayfalar[0][2] if nav_sayfalar else "Dashboard"
+    st.session_state["aktif_sayfa"] = nav_sayfalar[0][2] if nav_sayfalar else "Anasayfa"
 
 # Navigasyon butonlari
 nav_cols = st.columns(len(nav_sayfalar))
@@ -219,7 +219,7 @@ for ix, (label, ikon, sayfa) in enumerate(nav_sayfalar):
 
 st.divider()
 
-if st.session_state["aktif_sayfa"] == "Dashboard":
+if st.session_state["aktif_sayfa"] == "Anasayfa":
     from app.dashboard import dashboard_goster
     dashboard_goster(aktif_kullanici)
  
