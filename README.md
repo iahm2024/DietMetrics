@@ -40,14 +40,14 @@ Model eğitim sürecine dair detaylar ve metrikler:
 ### Örnek Tahminler (Predictions)
 Aşağıda modelimizin tabaktaki yemekleri ve referans nesneleri nasıl tespit ettiğini görebilirsiniz:
 
-<img width="1920" height="1280" alt="val_batch0_pred" src="https://github.com/user-attachments/assets/28c43b92-f571-447f-b1c1-e439266f6510" />
+<img width="1920" height="1280" alt="val_batch0_pred" src="https://github.com/user-attachments/assets/549fdb01-2f8c-4ef2-9730-5fdbbdee5cf2" />
 
 ### Analiz Grafikleri
 Modelin öğrenme eğrisi ve sınıfları birbirinden ne kadar iyi ayırabildiğini gösteren matris tablosu:
 
-<img width="4000" height="1200" alt="results" src="https://github.com/user-attachments/assets/3fcf2389-8a52-4c9a-9264-ce06e027c9e1" />
+<img width="4000" height="1200" alt="results" src="https://github.com/user-attachments/assets/58813218-c296-4a39-bfec-1da80f741f4f" />
 
-<img width="3000" height="2250" alt="confusion_matrix" src="https://github.com/user-attachments/assets/e7cbf1bf-85f9-40cf-ad55-6d4568cc0962" />
+<img width="3000" height="2250" alt="confusion_matrix" src="https://github.com/user-attachments/assets/cf702b04-e66d-49c1-981d-de909c5a7f18" />
 
 ---
 
